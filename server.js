@@ -4,51 +4,84 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const https = require('https');
 const iconv = require('iconv-lite');
-const Database = require('better-sqlite3');
+const initSqlJs = require('sql.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dns = require('dns'); // MX kaydı doğrulaması için
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = 'kariyer_super_secret_key_2026';
+const DB_PATH = path.join(__dirname, 'kariyer.db');
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname)); // Statik dosyaları (HTML, CSS, JS) sunmak için eklendi
 
-// --- VERİTABANI (SQLite) KURULUMU ---
-const db = new Database('./kariyer.db');
-console.log("✅ SQLite Veritabanı başarıyla bağlandı.");
+// --- VERİTABANI (sql.js) KURULUMU ---
+let db;
 
-// Tabloları Oluştur
-db.exec(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    email TEXT UNIQUE,
-    password TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)`);
+async function initDatabase() {
+    const SQL = await initSqlJs();
+    
+    // Mevcut veritabanı varsa yükle, yoksa yeni oluştur
+    try {
+        if (fs.existsSync(DB_PATH)) {
+            const fileBuffer = fs.readFileSync(DB_PATH);
+            db = new SQL.Database(fileBuffer);
+        } else {
+            db = new SQL.Database();
+        }
+    } catch (err) {
+        db = new SQL.Database();
+    }
+    
+    console.log("✅ SQLite Veritabanı başarıyla bağlandı.");
 
-db.exec(`CREATE TABLE IF NOT EXISTS favorites (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    title TEXT,
-    cities TEXT,
-    score TEXT,
-    quota INTEGER,
-    link TEXT,
-    added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status TEXT DEFAULT 'Beklemede',
-    FOREIGN KEY(user_id) REFERENCES users(id)
-)`);
+    // Tabloları Oluştur
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT UNIQUE,
+        password TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
 
-// Migrasyon: favorites tablosuna status kolonu ekleme
-try {
-    db.exec(`ALTER TABLE favorites ADD COLUMN status TEXT DEFAULT 'Beklemede'`);
-    console.log("✅ Tablo Güncellendi: 'status' kolonu başarıyla eklendi.");
-} catch (err) {
-    // Kolon zaten varsa hata verir, sorun değil
+    db.run(`CREATE TABLE IF NOT EXISTS favorites (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        title TEXT,
+        cities TEXT,
+        score TEXT,
+        quota INTEGER,
+        link TEXT,
+        added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        status TEXT DEFAULT 'Beklemede',
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )`);
+
+    // Migrasyon: favorites tablosuna status kolonu ekleme
+    try {
+        db.run(`ALTER TABLE favorites ADD COLUMN status TEXT DEFAULT 'Beklemede'`);
+        console.log("✅ Tablo Güncellendi: 'status' kolonu başarıyla eklendi.");
+    } catch (err) {
+        // Kolon zaten varsa hata verir, sorun değil
+    }
+    
+    saveDatabase();
+}
+
+// Veritabanını diske kaydet
+function saveDatabase() {
+    try {
+        const data = db.export();
+        const buffer = Buffer.from(data);
+        fs.writeFileSync(DB_PATH, buffer);
+    } catch (err) {
+        console.error("Veritabanı kaydetme hatası:", err.message);
+    }
 }
 
 // --- JWT AUTH MIDDLEWARE ---
@@ -92,9 +125,9 @@ app.post('/api/register', async (req, res) => {
 
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const stmt = db.prepare(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`);
             try {
-                stmt.run(name, email, hashedPassword);
+                db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [name, email, hashedPassword]);
+                saveDatabase();
                 res.json({ success: true, message: "Kayıt başarılı! Giriş yapabilirsiniz." });
             } catch (dbErr) {
                 if (dbErr.message.includes("UNIQUE")) return res.status(400).json({ success: false, message: "Bu e-posta zaten kayıtlı." });
@@ -109,9 +142,15 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const stmt = db.prepare(`SELECT * FROM users WHERE email = ?`);
-        const user = stmt.get(email);
-        if (!user) return res.status(400).json({ success: false, message: "Kullanıcı bulunamadı." });
+        const result = db.exec(`SELECT * FROM users WHERE email = ?`, [email]);
+        if (result.length === 0 || result[0].values.length === 0) {
+            return res.status(400).json({ success: false, message: "Kullanıcı bulunamadı." });
+        }
+        
+        const columns = result[0].columns;
+        const values = result[0].values[0];
+        const user = {};
+        columns.forEach((col, i) => user[col] = values[i]);
 
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(400).json({ success: false, message: "Hatalı şifre." });
@@ -128,8 +167,9 @@ app.post('/api/favorites', authenticateToken, (req, res) => {
     const { title, cities, score, quota, link, status } = req.body;
     const jobStatus = status || 'Beklemede';
     try {
-        const stmt = db.prepare(`INSERT INTO favorites (user_id, title, cities, score, quota, link, status) VALUES (?, ?, ?, ?, ?, ?, ?)`);
-        stmt.run(req.user.id, title, cities, score, quota, link, jobStatus);
+        db.run(`INSERT INTO favorites (user_id, title, cities, score, quota, link, status) VALUES (?, ?, ?, ?, ?, ?, ?)`, 
+            [req.user.id, title, cities, score, quota, link, jobStatus]);
+        saveDatabase();
         res.json({ success: true, message: "İlan favorilere eklendi." });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Favori eklenemedi." });
@@ -138,8 +178,16 @@ app.post('/api/favorites', authenticateToken, (req, res) => {
 
 app.get('/api/favorites', authenticateToken, (req, res) => {
     try {
-        const stmt = db.prepare(`SELECT * FROM favorites WHERE user_id = ? ORDER BY added_at DESC`);
-        const rows = stmt.all(req.user.id);
+        const result = db.exec(`SELECT * FROM favorites WHERE user_id = ? ORDER BY added_at DESC`, [req.user.id]);
+        let rows = [];
+        if (result.length > 0) {
+            const columns = result[0].columns;
+            rows = result[0].values.map(vals => {
+                const row = {};
+                columns.forEach((col, i) => row[col] = vals[i]);
+                return row;
+            });
+        }
         res.json({ success: true, data: rows });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Favoriler getirilemedi." });
@@ -149,9 +197,10 @@ app.get('/api/favorites', authenticateToken, (req, res) => {
 // FAVORİ SİLME (TAKİPTEN KALDIRMA)
 app.delete('/api/favorites/:id', authenticateToken, (req, res) => {
     try {
-        const stmt = db.prepare(`DELETE FROM favorites WHERE id = ? AND user_id = ?`);
-        const result = stmt.run(req.params.id, req.user.id);
-        if (result.changes === 0) return res.status(404).json({ success: false, message: "Silinecek ilan bulunamadı." });
+        db.run(`DELETE FROM favorites WHERE id = ? AND user_id = ?`, [req.params.id, req.user.id]);
+        const changes = db.getRowsModified();
+        if (changes === 0) return res.status(404).json({ success: false, message: "Silinecek ilan bulunamadı." });
+        saveDatabase();
         res.json({ success: true, message: "İlan takipten kaldırıldı." });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Favori silinemedi." });
@@ -164,9 +213,10 @@ app.patch('/api/favorites/:id', authenticateToken, (req, res) => {
     if (!status) return res.status(400).json({ success: false, message: "Durum bilgisi gereklidir." });
     
     try {
-        const stmt = db.prepare(`UPDATE favorites SET status = ? WHERE id = ? AND user_id = ?`);
-        const result = stmt.run(status, req.params.id, req.user.id);
-        if (result.changes === 0) return res.status(404).json({ success: false, message: "Güncellenecek ilan bulunamadı." });
+        db.run(`UPDATE favorites SET status = ? WHERE id = ? AND user_id = ?`, [status, req.params.id, req.user.id]);
+        const changes = db.getRowsModified();
+        if (changes === 0) return res.status(404).json({ success: false, message: "Güncellenecek ilan bulunamadı." });
+        saveDatabase();
         res.json({ success: true, message: "İlan durumu başarıyla güncellendi." });
     } catch (err) {
         return res.status(500).json({ success: false, message: "Durum güncellenemedi." });
@@ -293,10 +343,6 @@ async function runScrapers() {
     console.log(`🎉 Arka plan taraması tamamlandı. Havuzda ${uniqueJobs.length} tekil ilan var.`);
 }
 
-// Sunucu başlarken ilk taramayı yap, sonra her 15 dakikada bir güncelle
-runScrapers();
-setInterval(runScrapers, 15 * 60 * 1000);
-
 // Client bu endpoint'e geldiğinde beklemeden anında cached (önbellek) veriyi alır
 app.get('/api/jobs', (req, res) => {
     res.json({ success: true, data: cachedJobs });
@@ -313,10 +359,19 @@ app.post('/api/analyze', async (req, res) => {
     }
 });
 
-// Sunucuyu Başlat
-app.listen(PORT, () => {
-    console.log(`\n======================================================`);
-    console.log(`🚀 PROFESYONEL FULL-STACK SUNUCU (SQLite + AUTH) BAŞLATILDI`);
-    console.log(`🔗 API Adresi: http://localhost:${PORT}`);
-    console.log(`======================================================\n`);
+// Sunucuyu Başlat (Veritabanı hazır olduktan sonra)
+initDatabase().then(() => {
+    // Sunucu başlarken ilk taramayı yap, sonra her 15 dakikada bir güncelle
+    runScrapers();
+    setInterval(runScrapers, 15 * 60 * 1000);
+    
+    app.listen(PORT, () => {
+        console.log(`\n======================================================`);
+        console.log(`🚀 PROFESYONEL FULL-STACK SUNUCU (SQLite + AUTH) BAŞLATILDI`);
+        console.log(`🔗 API Adresi: http://localhost:${PORT}`);
+        console.log(`======================================================\n`);
+    });
+}).catch(err => {
+    console.error("Veritabanı başlatma hatası:", err);
+    process.exit(1);
 });
