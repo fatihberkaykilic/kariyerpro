@@ -4,7 +4,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const https = require('https');
 const iconv = require('iconv-lite');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dns = require('dns'); // MX kaydı doğrulaması için
@@ -18,44 +18,38 @@ app.use(express.json());
 app.use(express.static(__dirname)); // Statik dosyaları (HTML, CSS, JS) sunmak için eklendi
 
 // --- VERİTABANI (SQLite) KURULUMU ---
-const db = new sqlite3.Database('./kariyer.db', (err) => {
-    if (err) console.error("Veritabanı bağlantı hatası:", err.message);
-    else console.log("✅ SQLite Veritabanı başarıyla bağlandı.");
-});
+const db = new Database('./kariyer.db');
+console.log("✅ SQLite Veritabanı başarıyla bağlandı.");
 
 // Tabloları Oluştur
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT UNIQUE,
-        password TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
+db.exec(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT UNIQUE,
+    password TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS favorites (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        title TEXT,
-        cities TEXT,
-        score TEXT,
-        quota INTEGER,
-        link TEXT,
-        added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY(user_id) REFERENCES users(id)
-    )`);
+db.exec(`CREATE TABLE IF NOT EXISTS favorites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    title TEXT,
+    cities TEXT,
+    score TEXT,
+    quota INTEGER,
+    link TEXT,
+    added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status TEXT DEFAULT 'Beklemede',
+    FOREIGN KEY(user_id) REFERENCES users(id)
+)`);
 
-    // Migrasyon: favorites tablosuna status kolonu ekleme
-    db.run(`ALTER TABLE favorites ADD COLUMN status TEXT DEFAULT 'Beklemede'`, (err) => {
-        if (err) {
-            if (!err.message.includes("duplicate column name")) {
-                console.log("Not: status kolonu zaten mevcut veya eklenemedi:", err.message);
-            }
-        } else {
-            console.log("✅ Tablo Güncellendi: 'status' kolonu başarıyla eklendi.");
-        }
-    });
-});
+// Migrasyon: favorites tablosuna status kolonu ekleme
+try {
+    db.exec(`ALTER TABLE favorites ADD COLUMN status TEXT DEFAULT 'Beklemede'`);
+    console.log("✅ Tablo Güncellendi: 'status' kolonu başarıyla eklendi.");
+} catch (err) {
+    // Kolon zaten varsa hata verir, sorun değil
+}
 
 // --- JWT AUTH MIDDLEWARE ---
 function authenticateToken(req, res, next) {
@@ -98,23 +92,25 @@ app.post('/api/register', async (req, res) => {
 
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [name, email, hashedPassword], function(err) {
-                if (err) {
-                    if (err.message.includes("UNIQUE")) return res.status(400).json({ success: false, message: "Bu e-posta zaten kayıtlı." });
-                    return res.status(500).json({ success: false, message: "Kayıt olurken hata oluştu." });
-                }
+            const stmt = db.prepare(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`);
+            try {
+                stmt.run(name, email, hashedPassword);
                 res.json({ success: true, message: "Kayıt başarılı! Giriş yapabilirsiniz." });
-            });
+            } catch (dbErr) {
+                if (dbErr.message.includes("UNIQUE")) return res.status(400).json({ success: false, message: "Bu e-posta zaten kayıtlı." });
+                return res.status(500).json({ success: false, message: "Kayıt olurken hata oluştu." });
+            }
         } catch (error) {
             res.status(500).json({ success: false, message: "Sunucu hatası." });
         }
     });
 });
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
-        if (err) return res.status(500).json({ success: false, message: "Sunucu hatası." });
+    try {
+        const stmt = db.prepare(`SELECT * FROM users WHERE email = ?`);
+        const user = stmt.get(email);
         if (!user) return res.status(400).json({ success: false, message: "Kullanıcı bulunamadı." });
 
         const validPassword = await bcrypt.compare(password, user.password);
@@ -122,34 +118,44 @@ app.post('/api/login', (req, res) => {
 
         const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
         res.json({ success: true, token, user: { name: user.name, email: user.email } });
-    });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Sunucu hatası." });
+    }
 });
 
 // --- FAVORİ İŞLEMLERİ (SADECE GİRİŞ YAPANLAR) ---
 app.post('/api/favorites', authenticateToken, (req, res) => {
     const { title, cities, score, quota, link, status } = req.body;
     const jobStatus = status || 'Beklemede';
-    db.run(`INSERT INTO favorites (user_id, title, cities, score, quota, link, status) VALUES (?, ?, ?, ?, ?, ?, ?)`, 
-        [req.user.id, title, cities, score, quota, link, jobStatus], function(err) {
-        if (err) return res.status(500).json({ success: false, message: "Favori eklenemedi." });
+    try {
+        const stmt = db.prepare(`INSERT INTO favorites (user_id, title, cities, score, quota, link, status) VALUES (?, ?, ?, ?, ?, ?, ?)`);
+        stmt.run(req.user.id, title, cities, score, quota, link, jobStatus);
         res.json({ success: true, message: "İlan favorilere eklendi." });
-    });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Favori eklenemedi." });
+    }
 });
 
 app.get('/api/favorites', authenticateToken, (req, res) => {
-    db.all(`SELECT * FROM favorites WHERE user_id = ? ORDER BY added_at DESC`, [req.user.id], (err, rows) => {
-        if (err) return res.status(500).json({ success: false, message: "Favoriler getirilemedi." });
+    try {
+        const stmt = db.prepare(`SELECT * FROM favorites WHERE user_id = ? ORDER BY added_at DESC`);
+        const rows = stmt.all(req.user.id);
         res.json({ success: true, data: rows });
-    });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Favoriler getirilemedi." });
+    }
 });
 
 // FAVORİ SİLME (TAKİPTEN KALDIRMA)
 app.delete('/api/favorites/:id', authenticateToken, (req, res) => {
-    db.run(`DELETE FROM favorites WHERE id = ? AND user_id = ?`, [req.params.id, req.user.id], function(err) {
-        if (err) return res.status(500).json({ success: false, message: "Favori silinemedi." });
-        if (this.changes === 0) return res.status(404).json({ success: false, message: "Silinecek ilan bulunamadı." });
+    try {
+        const stmt = db.prepare(`DELETE FROM favorites WHERE id = ? AND user_id = ?`);
+        const result = stmt.run(req.params.id, req.user.id);
+        if (result.changes === 0) return res.status(404).json({ success: false, message: "Silinecek ilan bulunamadı." });
         res.json({ success: true, message: "İlan takipten kaldırıldı." });
-    });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Favori silinemedi." });
+    }
 });
 
 // FAVORİ DURUMU GÜNCELLEME (BAŞVURU TAKİBİ)
@@ -157,11 +163,14 @@ app.patch('/api/favorites/:id', authenticateToken, (req, res) => {
     const { status } = req.body;
     if (!status) return res.status(400).json({ success: false, message: "Durum bilgisi gereklidir." });
     
-    db.run(`UPDATE favorites SET status = ? WHERE id = ? AND user_id = ?`, [status, req.params.id, req.user.id], function(err) {
-        if (err) return res.status(500).json({ success: false, message: "Durum güncellenemedi." });
-        if (this.changes === 0) return res.status(404).json({ success: false, message: "Güncellenecek ilan bulunamadı." });
+    try {
+        const stmt = db.prepare(`UPDATE favorites SET status = ? WHERE id = ? AND user_id = ?`);
+        const result = stmt.run(status, req.params.id, req.user.id);
+        if (result.changes === 0) return res.status(404).json({ success: false, message: "Güncellenecek ilan bulunamadı." });
         res.json({ success: true, message: "İlan durumu başarıyla güncellendi." });
-    });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: "Durum güncellenemedi." });
+    }
 });
 
 

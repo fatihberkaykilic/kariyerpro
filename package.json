@@ -19,6 +19,6 @@
     "express": "^4.21.2",
     "iconv-lite": "^0.7.2",
     "jsonwebtoken": "^9.0.3",
-    "sqlite3": "^5.1.7"
+    "better-sqlite3": "^11.7.0"
   }
 }
