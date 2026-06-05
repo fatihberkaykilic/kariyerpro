@@ -1,0 +1,4 @@
+node_modules/
+kariyer.db
+*.code-workspace
+.env
