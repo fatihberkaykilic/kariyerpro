@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Gelişmiş Filtre Seçenekleri Doldurma ---
-    const allCities = ["Adana","Adıyaman","Afyonkarahisar","Ağrı","Amasya","Ankara","Antalya","Artvin","Aydın","Balıkesir","Bilecik","Bingöl","Bitlis","Bolu","Burdur","Bursa","Çanakkale","Çankırı","Çorum","Denizli","Diyarbakır","Edirne","Elazığ","Erzincan","Erzurum","Eskişehir","Gaziantep","Giresun","Gümüşhane","Hakkari","Hatay","Isparta","Mersin","İstanbul","İzmir","Kars","Kastamonu","Kayseri","Kırklareli","Kırşehir","Kocaeli","Konya","Kütahya","Malatya","Manisa","Kahramanmaraş","Mardin","Muğla","Muş","Nevşehir","Niğde","Ordu","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Tekirdağ","Tokat","Trabzon","Tunceli","Şanlıurfa","Uşak","Van","Yozgat","Zonguldak","Aksaray","Bayburt","Karaman","Kırıkkale","Batman","Şırnak","Bartın","Ardahan","Iğdır","Yalova","Karabük","Kilis","Osmaniye","Düzce"];
-    const allProfessions = ["Memur", "Mühendis", "Tekniker", "Teknisyen", "Hemşire", "Sağlık Personeli", "Öğretmen", "Büro Personeli", "Güvenlik", "Şoför", "İşçi", "Destek Personeli", "Uzman", "Avukat", "Mimar", "Programcı"];
+﻿document.addEventListener('DOMContentLoaded', () => {
+    // --- GeliÅŸmiÅŸ Filtre SeÃ§enekleri Doldurma ---
+    const allCities = ["Adana","AdÄ±yaman","Afyonkarahisar","AÄŸrÄ±","Amasya","Ankara","Antalya","Artvin","AydÄ±n","BalÄ±kesir","Bilecik","BingÃ¶l","Bitlis","Bolu","Burdur","Bursa","Ã‡anakkale","Ã‡ankÄ±rÄ±","Ã‡orum","Denizli","DiyarbakÄ±r","Edirne","ElazÄ±ÄŸ","Erzincan","Erzurum","EskiÅŸehir","Gaziantep","Giresun","GÃ¼mÃ¼ÅŸhane","Hakkari","Hatay","Isparta","Mersin","Ä°stanbul","Ä°zmir","Kars","Kastamonu","Kayseri","KÄ±rklareli","KÄ±rÅŸehir","Kocaeli","Konya","KÃ¼tahya","Malatya","Manisa","KahramanmaraÅŸ","Mardin","MuÄŸla","MuÅŸ","NevÅŸehir","NiÄŸde","Ordu","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","TekirdaÄŸ","Tokat","Trabzon","Tunceli","ÅanlÄ±urfa","UÅŸak","Van","Yozgat","Zonguldak","Aksaray","Bayburt","Karaman","KÄ±rÄ±kkale","Batman","ÅÄ±rnak","BartÄ±n","Ardahan","IÄŸdÄ±r","Yalova","KarabÃ¼k","Kilis","Osmaniye","DÃ¼zce"];
+    const allProfessions = ["Memur", "MÃ¼hendis", "Tekniker", "Teknisyen", "HemÅŸire", "SaÄŸlÄ±k Personeli", "Ã–ÄŸretmen", "BÃ¼ro Personeli", "GÃ¼venlik", "ÅofÃ¶r", "Ä°ÅŸÃ§i", "Destek Personeli", "Uzman", "Avukat", "Mimar", "ProgramcÄ±"];
     
     const citySelect = document.getElementById('cityFilter');
     if (citySelect) {
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Seçili sınıfı temizle ve tıklanana ekle
+            // SeÃ§ili sÄ±nÄ±fÄ± temizle ve tÄ±klanana ekle
             navItems.forEach(n => n.classList.remove('active'));
             item.classList.add('active');
 
-            // Tüm sayfaları gizle
+            // TÃ¼m sayfalarÄ± gizle
             pageSections.forEach(page => page.classList.remove('active'));
 
-            // Hedef sayfayı göster
+            // Hedef sayfayÄ± gÃ¶ster
             const targetPageId = item.getAttribute('data-page');
             if (targetPageId) {
                 const targetPage = document.getElementById(targetPageId);
@@ -117,12 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         
-        const icon = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
+        const icon = type === 'success' ? 'âœ…' : (type === 'error' ? 'âŒ' : 'â„¹ï¸');
         
         toast.innerHTML = `<span style="font-size: 1.2rem;">${icon}</span> <span style="font-weight: 500;">${message}</span>`;
         container.appendChild(toast);
         
-        // Animasyon için reflow
+        // Animasyon iÃ§in reflow
         toast.offsetHeight;
         toast.classList.add('show');
         
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.trackJob = async function(encodedJob, status = 'Beklemede') {
         const token = localStorage.getItem('kariyerToken');
         if (!token) {
-            showToast('Favorilere eklemek için önce Giriş Yapmalısınız!', 'error');
+            showToast('Favorilere eklemek iÃ§in Ã¶nce GiriÅŸ YapmalÄ±sÄ±nÄ±z!', 'error');
             openAuthModal();
             return;
         }
@@ -158,16 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 job.trackDate = new Date().toISOString().split('T')[0];
-                job.platform = 'Favori (Çevrimdışı)';
+                job.platform = 'Favori (Ã‡evrimdÄ±ÅŸÄ±)';
                 trackedJobs.push(job);
                 saveTrackedJobs();
                 renderTrackerTable();
-                showToast('İlan takibe alındı (Çevrimdışı kaydedildi)!', 'success');
+                showToast('Ä°lan takibe alÄ±ndÄ± (Ã‡evrimdÄ±ÅŸÄ± kaydedildi)!', 'success');
                 if (window.confetti) confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 return;
             }
 
-            const response = await fetch('http://localhost:3000/api/favorites', {
+            const response = await fetch('/api/favorites', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -179,26 +179,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             
             if (result.success) {
-                showToast('İlan başarıyla takibe alındı (Veritabanına kaydedildi)!', 'success');
+                showToast('Ä°lan baÅŸarÄ±yla takibe alÄ±ndÄ± (VeritabanÄ±na kaydedildi)!', 'success');
                 if (window.confetti) confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 fetchFavoritesFromDB();
             } else {
                 showToast(result.message, 'error');
             }
         } catch(e) {
-            console.error("Takip ekleme hatası, yerel kaydediliyor:", e);
+            console.error("Takip ekleme hatasÄ±, yerel kaydediliyor:", e);
             try {
                 const job = JSON.parse(decodeURIComponent(encodedJob));
                 job.status = status;
                 const exists = trackedJobs.some(j => j.title === job.title && j.cities === job.cities);
                 if (!exists) {
                     job.trackDate = new Date().toISOString().split('T')[0];
-                    job.platform = 'Favori (Çevrimdışı)';
+                    job.platform = 'Favori (Ã‡evrimdÄ±ÅŸÄ±)';
                     trackedJobs.push(job);
                     saveTrackedJobs();
                     renderTrackerTable();
                 }
-                showToast('İlan takibe alındı (Çevrimdışı kaydedildi)!', 'success');
+                showToast('Ä°lan takibe alÄ±ndÄ± (Ã‡evrimdÄ±ÅŸÄ± kaydedildi)!', 'success');
                 if (window.confetti) confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             } catch(err) {}
         }
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         try {
-            const response = await fetch('http://localhost:3000/api/favorites', {
+            const response = await fetch('/api/favorites', {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const result = await response.json();
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTrackerTable();
             }
         } catch(e) { 
-            console.error("Favoriler sunucudan çekilemedi, yerel yükleniyor:", e); 
+            console.error("Favoriler sunucudan Ã§ekilemedi, yerel yÃ¼kleniyor:", e); 
             trackedJobs = JSON.parse(localStorage.getItem('kariyerTrackedJobs')) || [];
             renderTrackerTable();
         }
@@ -244,35 +244,35 @@ document.addEventListener('DOMContentLoaded', () => {
             trackedJobs.splice(index, 1);
             saveTrackedJobs();
             renderTrackerTable();
-            showToast('İlan takip listesinden kaldırıldı.', 'success');
+            showToast('Ä°lan takip listesinden kaldÄ±rÄ±ldÄ±.', 'success');
             return;
         }
 
         const token = localStorage.getItem('kariyerToken');
         try {
-            const response = await fetch(`http://localhost:3000/api/favorites/${job.id}`, {
+            const response = await fetch(`/api/favorites/${job.id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const result = await response.json();
             if (result.success) {
-                showToast('İlan başarıyla takipten kaldırıldı!', 'success');
+                showToast('Ä°lan baÅŸarÄ±yla takipten kaldÄ±rÄ±ldÄ±!', 'success');
                 fetchFavoritesFromDB();
             } else {
                 showToast(result.message, 'error');
             }
         } catch(e) {
-            console.error("Takipten kaldırma hatası, yerel siliniyor:", e);
+            console.error("Takipten kaldÄ±rma hatasÄ±, yerel siliniyor:", e);
             trackedJobs.splice(index, 1);
             saveTrackedJobs();
             renderTrackerTable();
-            showToast('İlan takip listesinden kaldırıldı.', 'success');
+            showToast('Ä°lan takip listesinden kaldÄ±rÄ±ldÄ±.', 'success');
         }
     };
 
     window.exportToExcel = function() {
         if (trackedJobs.length === 0) {
-            showToast("Dışa aktarılacak ilan bulunamadı.", "error");
+            showToast("DÄ±ÅŸa aktarÄ±lacak ilan bulunamadÄ±.", "error");
             return;
         }
         
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.click();
         document.body.removeChild(link);
         
-        showToast("Veriler başarıyla bilgisayara indirildi!", "success");
+        showToast("Veriler baÅŸarÄ±yla bilgisayara indirildi!", "success");
     };
     
     window.updateTrackedJobStatus = async function(index, newStatus) {
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (job.id) {
             const token = localStorage.getItem('kariyerToken');
             try {
-                const response = await fetch(`http://localhost:3000/api/favorites/${job.id}`, {
+                const response = await fetch(`/api/favorites/${job.id}`, {
                     method: 'PATCH',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -316,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     showToast(result.message, 'error');
                 }
             } catch(e) {
-                console.error("Durum güncelleme hatası:", e);
-                showToast('Durum güncellenirken sunucu hatası oluştu.', 'error');
+                console.error("Durum gÃ¼ncelleme hatasÄ±:", e);
+                showToast('Durum gÃ¼ncellenirken sunucu hatasÄ± oluÅŸtu.', 'error');
             }
         } else {
             saveTrackedJobs();
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         container.innerHTML = '';
         if (smartAlerts.length === 0) {
-            container.innerHTML = '<span style="color: var(--text-tertiary); font-size: 0.85rem; font-style: italic;">Henüz kurulu bir alarmınız yok.</span>';
+            container.innerHTML = '<span style="color: var(--text-tertiary); font-size: 0.85rem; font-style: italic;">HenÃ¼z kurulu bir alarmÄ±nÄ±z yok.</span>';
             return;
         }
 
@@ -347,8 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.createElement('div');
             el.style = 'background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.5rem 1rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem; color: #60a5fa; font-size: 0.85rem;';
             el.innerHTML = `
-                <span><strong>Meslek:</strong> ${alert.profession} | <strong>Şehir:</strong> ${alert.city}</span>
-                <button onclick="window.removeSmartAlert(${index})" style="background: none; border: none; color: #f87171; cursor: pointer; font-weight: bold; margin-left: 0.5rem; font-size: 1rem;">×</button>
+                <span><strong>Meslek:</strong> ${alert.profession} | <strong>Åehir:</strong> ${alert.city}</span>
+                <button onclick="window.removeSmartAlert(${index})" style="background: none; border: none; color: #f87171; cursor: pointer; font-weight: bold; margin-left: 0.5rem; font-size: 1rem;">Ã—</button>
             `;
             container.appendChild(el);
         });
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         smartAlerts.splice(index, 1);
         saveSmartAlerts();
         renderSmartAlerts();
-        showToast('Alarm başarıyla silindi.', 'info');
+        showToast('Alarm baÅŸarÄ±yla silindi.', 'info');
     };
 
     const createAlertBtn = document.getElementById('createAlertBtn');
@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const city = document.getElementById('alertCity').value.trim();
 
             if (!prof || !city) {
-                showToast('Lütfen hem meslek hem şehir alanını doldurun.', 'error');
+                showToast('LÃ¼tfen hem meslek hem ÅŸehir alanÄ±nÄ± doldurun.', 'error');
                 return;
             }
 
@@ -385,11 +385,11 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('alertProfession').value = '';
             document.getElementById('alertCity').value = '';
             
-            showToast('✅ Alarm başarıyla kuruldu! Yeni ilan düştüğünde bildirileceksiniz.', 'success');
+            showToast('âœ… Alarm baÅŸarÄ±yla kuruldu! Yeni ilan dÃ¼ÅŸtÃ¼ÄŸÃ¼nde bildirileceksiniz.', 'success');
         });
     }
 
-    // İlk açılışta alarmları çiz
+    // Ä°lk aÃ§Ä±lÄ±ÅŸta alarmlarÄ± Ã§iz
     renderSmartAlerts();
 
     // Otomatik kontrol fonksiyonu
@@ -421,22 +421,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 notifiedAlertJobs.push(jobId);
                 newFound = true;
                 
-                // Otomatik olarak İlan Takibine ekle
+                // Otomatik olarak Ä°lan Takibine ekle
                 if (!trackedJobs.some(j => j.title === job.title && j.cities === job.cities)) {
                     const today = new Date();
-                    const aylar = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+                    const aylar = ["Oca", "Åub", "Mar", "Nis", "May", "Haz", "Tem", "AÄŸu", "Eyl", "Eki", "Kas", "Ara"];
                     const dateString = `${today.getDate()} ${aylar[today.getMonth()]} ${today.getFullYear()}`;
                     
                     trackedJobs.unshift({
                         ...job,
                         trackDate: dateString,
                         status: 'Beklemede',
-                        platform: 'Oto-Bot 🤖'
+                        platform: 'Oto-Bot ğŸ¤–'
                     });
                     saveTrackedJobs();
                 }
 
-                showToast(`🔔 DİKKAT! Aradığınız kriterde ilan bulundu: ${job.title.substring(0,30)}...`, 'success');
+                showToast(`ğŸ”” DÄ°KKAT! AradÄ±ÄŸÄ±nÄ±z kriterde ilan bulundu: ${job.title.substring(0,30)}...`, 'success');
             }
         });
 
@@ -492,26 +492,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Populate Data
         titleEl.textContent = job.title;
         companyEl.textContent = job.cities.split('/')[0] || job.cities;
-        quotaEl.textContent = job.quota + " Kişi";
+        quotaEl.textContent = job.quota + " KiÅŸi";
         
         modal.classList.add('show');
         
         // Fetch AI Data
         loading.classList.remove('hidden');
         results.classList.add('hidden');
-        loading.innerHTML = `<div class="spinner"></div><p style="color: var(--text-secondary); margin-top: 1rem;">Yapay zeka ilanı analiz ediyor...</p>`;
+        loading.innerHTML = `<div class="spinner"></div><p style="color: var(--text-secondary); margin-top: 1rem;">Yapay zeka ilanÄ± analiz ediyor...</p>`;
         
         try {
             if (window.isOfflineMode) {
                 throw new Error("Offline Mode");
             }
-            const response = await fetch('http://localhost:5000/api/analyze', {
+            const response = await fetch('/api/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: job.title, link: job.link })
             });
             
-            if(!response.ok) throw new Error("Python API'ye erişilemedi.");
+            if(!response.ok) throw new Error("Python API'ye eriÅŸilemedi.");
             const aiData = await response.json();
             
             loading.classList.add('hidden');
@@ -527,21 +527,21 @@ document.addEventListener('DOMContentLoaded', () => {
             ul.innerHTML = '';
             aiData.notes.forEach(note => {
                 const li = document.createElement('li');
-                li.innerHTML = `✅ ${note}`;
+                li.innerHTML = `âœ… ${note}`;
                 li.style.marginBottom = "0.5rem";
                 ul.appendChild(li);
             });
         } catch (err) {
-            console.error("AI tavsiye motoru çevrimdışı, yerel tavsiye yükleniyor:", err);
+            console.error("AI tavsiye motoru Ã§evrimdÄ±ÅŸÄ±, yerel tavsiye yÃ¼kleniyor:", err);
             
             setTimeout(() => {
                 loading.classList.add('hidden');
                 results.classList.remove('hidden');
 
                 // Determine dummy values based on job title
-                const isEng = job.title.toLowerCase().includes('mühendis') || job.title.toLowerCase().includes('yazılım');
+                const isEng = job.title.toLowerCase().includes('mÃ¼hendis') || job.title.toLowerCase().includes('yazÄ±lÄ±m');
                 const probability = isEng ? 85 : 74;
-                const competition = isEng ? "Orta (Nitelikli Kadro)" : "Yüksek (Genel Başvuru)";
+                const competition = isEng ? "Orta (Nitelikli Kadro)" : "YÃ¼ksek (Genel BaÅŸvuru)";
                 const estScore = isEng ? "78.20" : "84.50";
                 
                 document.getElementById('aiProbability').textContent = `%${probability}`;
@@ -551,12 +551,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const ul = document.getElementById('aiNotesList');
                 ul.innerHTML = `
-                    <li>✅ Pozisyonun son 3 atama dönemindeki taban puan trendleri incelendi ve stabil olduğu görüldü.</li>
-                    <li>✅ Mülakatsız atama kriterlerine sahip olup, doğrudan KPSS puan üstünlüğüne tabidir.</li>
-                    <li>✅ Gerekli mezuniyet alan kodlarınızın ÖSYM kılavuz kodlarıyla tam uyumlu olduğunu kontrol edin.</li>
-                    <li>💡 Öneri: Tercih döneminde bu kurumu ilk 3 sıraya yazmanız yerleşme ihtimalinizi artıracaktır.</li>
+                    <li>âœ… Pozisyonun son 3 atama dÃ¶nemindeki taban puan trendleri incelendi ve stabil olduÄŸu gÃ¶rÃ¼ldÃ¼.</li>
+                    <li>âœ… MÃ¼lakatsÄ±z atama kriterlerine sahip olup, doÄŸrudan KPSS puan Ã¼stÃ¼nlÃ¼ÄŸÃ¼ne tabidir.</li>
+                    <li>âœ… Gerekli mezuniyet alan kodlarÄ±nÄ±zÄ±n Ã–SYM kÄ±lavuz kodlarÄ±yla tam uyumlu olduÄŸunu kontrol edin.</li>
+                    <li>ğŸ’¡ Ã–neri: Tercih dÃ¶neminde bu kurumu ilk 3 sÄ±raya yazmanÄ±z yerleÅŸme ihtimalinizi artÄ±racaktÄ±r.</li>
                 `;
-                showToast('İlan analizi yerel olarak yapıldı (Çevrimdışı Mod)!', 'info');
+                showToast('Ä°lan analizi yerel olarak yapÄ±ldÄ± (Ã‡evrimdÄ±ÅŸÄ± Mod)!', 'info');
             }, 800);
         }
 
@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('aiModal').classList.remove('show');
     };
 
-    // --- Backend'den Canlı Veri Çekme (Fetch API) ---
+    // --- Backend'den CanlÄ± Veri Ã‡ekme (Fetch API) ---
     let professionsData = {
         ortaogretim: [],
         onlisans: [],
@@ -598,28 +598,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const noResults = document.getElementById('noResults');
 
     // --- Fallback Jobs for Standalone/Offline Mode ---
-    // UYARI: Tablo 'cities' ve 'score' alanlarını beklemektedir!
+    // UYARI: Tablo 'cities' ve 'score' alanlarÄ±nÄ± beklemektedir!
     const fallbackJobs = {
         ortaogretim: [
-            { id: 101, title: "Hizmetli (Genel İdari)", cities: "Ankara / Tüm İller", score: "KPSS-P1", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 45, deadline: "30 Haziran 2026", description: "Adliye ve kamu binalarında hizmet işlerinden sorumlu personel alımı." },
-            { id: 102, title: "Şoför (B Sınıfı Ehliyet)", cities: "İstanbul / Ankara", score: "KPSS-P1", date: "Dün", link: "https://ilan.memurlar.net/", quota: 15, deadline: "25 Haziran 2026", description: "İl milli eğitim müdürlüklerinde araç kullanacak şoför personeli." },
-            { id: 103, title: "Teknisyen (Elektrik-Elektronik)", cities: "İzmir / Bursa / Konya", score: "KPSS-P3", date: "3 gün önce", link: "https://ilan.memurlar.net/", quota: 8, deadline: "20 Haziran 2026", description: "DSİ baraj ve sulama tesislerinde görev yapacak elektrik teknisyeni." },
-            { id: 104, title: "Güvenlik Görevlisi", cities: "Osmaniye / Adana", score: "KPSS-P94", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 20, deadline: "15 Temmuz 2026", description: "Devlet kurumu kampüslerinde özel güvenlik hizmeti verecek personel." },
-            { id: 105, title: "Destek Personeli", cities: "Trabzon / Samsun", score: "KPSS-P1", date: "2 gün önce", link: "https://ilan.memurlar.net/", quota: 30, deadline: "1 Temmuz 2026", description: "Kamu hastaneleri bünyesinde temizlik ve yardımcı hizmetler personeli." }
+            { id: 101, title: "Hizmetli (Genel Ä°dari)", cities: "Ankara / TÃ¼m Ä°ller", score: "KPSS-P1", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 45, deadline: "30 Haziran 2026", description: "Adliye ve kamu binalarÄ±nda hizmet iÅŸlerinden sorumlu personel alÄ±mÄ±." },
+            { id: 102, title: "ÅofÃ¶r (B SÄ±nÄ±fÄ± Ehliyet)", cities: "Ä°stanbul / Ankara", score: "KPSS-P1", date: "DÃ¼n", link: "https://ilan.memurlar.net/", quota: 15, deadline: "25 Haziran 2026", description: "Ä°l milli eÄŸitim mÃ¼dÃ¼rlÃ¼klerinde araÃ§ kullanacak ÅŸofÃ¶r personeli." },
+            { id: 103, title: "Teknisyen (Elektrik-Elektronik)", cities: "Ä°zmir / Bursa / Konya", score: "KPSS-P3", date: "3 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 8, deadline: "20 Haziran 2026", description: "DSÄ° baraj ve sulama tesislerinde gÃ¶rev yapacak elektrik teknisyeni." },
+            { id: 104, title: "GÃ¼venlik GÃ¶revlisi", cities: "Osmaniye / Adana", score: "KPSS-P94", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 20, deadline: "15 Temmuz 2026", description: "Devlet kurumu kampÃ¼slerinde Ã¶zel gÃ¼venlik hizmeti verecek personel." },
+            { id: 105, title: "Destek Personeli", cities: "Trabzon / Samsun", score: "KPSS-P1", date: "2 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 30, deadline: "1 Temmuz 2026", description: "Kamu hastaneleri bÃ¼nyesinde temizlik ve yardÄ±mcÄ± hizmetler personeli." }
         ],
         onlisans: [
-            { id: 201, title: "Büro Personeli (Genel)", cities: "İstanbul / Türkiye Geneli", score: "KPSS-P93", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 110, deadline: "30 Haziran 2026", description: "SGK merkez ve il müdürlüklerinde evrak, arşiv ve yazışma işleri." },
-            { id: 202, title: "Bilgisayar İşletmeni", cities: "Osmaniye", score: "KPSS-P3", date: "Dün", link: "https://ilan.memurlar.net/", quota: 5, deadline: "28 Haziran 2026", description: "Valilik bilgi işlem biriminde veri girişi ve sistem takibi." },
-            { id: 203, title: "Sağlık Teknikeri (Laborant)", cities: "Ankara / İzmir / Bursa", score: "KPSS-P93", date: "2 gün önce", link: "https://ilan.memurlar.net/", quota: 75, deadline: "22 Haziran 2026", description: "Devlet hastanelerinde tıbbi laboratuvar hizmetlerinde çalışacak tekniker." },
-            { id: 204, title: "Muhasebe Personeli", cities: "Gaziantep / Şanlıurfa", score: "KPSS-P93", date: "3 gün önce", link: "https://ilan.memurlar.net/", quota: 12, deadline: "25 Haziran 2026", description: "Ticaret odaları bünyesinde muhasebe ve finans süreçlerini yönetecek personel." },
-            { id: 205, title: "İcra Müdür Yardımcısı", cities: "Konya / Ereğli", score: "KPSS-P93", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 3, deadline: "10 Temmuz 2026", description: "Adliye icra dairesinde müdür yardımcısı olarak görev yapacak aday alımı." }
+            { id: 201, title: "BÃ¼ro Personeli (Genel)", cities: "Ä°stanbul / TÃ¼rkiye Geneli", score: "KPSS-P93", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 110, deadline: "30 Haziran 2026", description: "SGK merkez ve il mÃ¼dÃ¼rlÃ¼klerinde evrak, arÅŸiv ve yazÄ±ÅŸma iÅŸleri." },
+            { id: 202, title: "Bilgisayar Ä°ÅŸletmeni", cities: "Osmaniye", score: "KPSS-P3", date: "DÃ¼n", link: "https://ilan.memurlar.net/", quota: 5, deadline: "28 Haziran 2026", description: "Valilik bilgi iÅŸlem biriminde veri giriÅŸi ve sistem takibi." },
+            { id: 203, title: "SaÄŸlÄ±k Teknikeri (Laborant)", cities: "Ankara / Ä°zmir / Bursa", score: "KPSS-P93", date: "2 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 75, deadline: "22 Haziran 2026", description: "Devlet hastanelerinde tÄ±bbi laboratuvar hizmetlerinde Ã§alÄ±ÅŸacak tekniker." },
+            { id: 204, title: "Muhasebe Personeli", cities: "Gaziantep / ÅanlÄ±urfa", score: "KPSS-P93", date: "3 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 12, deadline: "25 Haziran 2026", description: "Ticaret odalarÄ± bÃ¼nyesinde muhasebe ve finans sÃ¼reÃ§lerini yÃ¶netecek personel." },
+            { id: 205, title: "Ä°cra MÃ¼dÃ¼r YardÄ±mcÄ±sÄ±", cities: "Konya / EreÄŸli", score: "KPSS-P93", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 3, deadline: "10 Temmuz 2026", description: "Adliye icra dairesinde mÃ¼dÃ¼r yardÄ±mcÄ±sÄ± olarak gÃ¶rev yapacak aday alÄ±mÄ±." }
         ],
         lisans: [
-            { id: 301, title: "Yazılım Mühendisi (Backend)", cities: "Kocaeli / Ankara", score: "KPSS-P3", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 12, deadline: "30 Haziran 2026", description: "TÜBİTAK BİLGEM'de milli yazılım ve siber güvenlik projelerinde C++/Python geliştirici." },
-            { id: 302, title: "Mühendis (Savunma Sanayi)", cities: "Ankara", score: "KPSS-P3", date: "Dün", link: "https://ilan.memurlar.net/", quota: 20, deadline: "25 Haziran 2026", description: "ASELSAN'da hava ve kara savunma sistemleri için gömülü yazılım geliştirici." },
-            { id: 303, title: "Uzman Yardımcısı (Ekonomi)", cities: "İstanbul / Ankara", score: "KPSS-P3", date: "3 gün önce", link: "https://ilan.memurlar.net/", quota: 15, deadline: "20 Haziran 2026", description: "Merkez Bankası'nda para politikası ve ekonometrik araştırma birimi için uzman adayı." },
-            { id: 304, title: "Hâkim/Savcı Adayı (HSYK)", cities: "Türkiye Geneli", score: "KPSS-P9", date: "Bugün", link: "https://ilan.memurlar.net/", quota: 500, deadline: "15 Temmuz 2026", description: "Adalet Bakanlığı bünyesinde göreve başlayacak hâkim ve savcı adayı alımı." },
-            { id: 305, title: "Vergi Müfettiş Yardımcısı", cities: "Ankara / İstanbul / İzmir", score: "KPSS-P3", date: "2 gün önce", link: "https://ilan.memurlar.net/", quota: 80, deadline: "5 Temmuz 2026", description: "Gelir İdaresi Başkanlığı'nda vergi denetimi ve inceleme yapacak müfettiş adayları." }
+            { id: 301, title: "YazÄ±lÄ±m MÃ¼hendisi (Backend)", cities: "Kocaeli / Ankara", score: "KPSS-P3", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 12, deadline: "30 Haziran 2026", description: "TÃœBÄ°TAK BÄ°LGEM'de milli yazÄ±lÄ±m ve siber gÃ¼venlik projelerinde C++/Python geliÅŸtirici." },
+            { id: 302, title: "MÃ¼hendis (Savunma Sanayi)", cities: "Ankara", score: "KPSS-P3", date: "DÃ¼n", link: "https://ilan.memurlar.net/", quota: 20, deadline: "25 Haziran 2026", description: "ASELSAN'da hava ve kara savunma sistemleri iÃ§in gÃ¶mÃ¼lÃ¼ yazÄ±lÄ±m geliÅŸtirici." },
+            { id: 303, title: "Uzman YardÄ±mcÄ±sÄ± (Ekonomi)", cities: "Ä°stanbul / Ankara", score: "KPSS-P3", date: "3 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 15, deadline: "20 Haziran 2026", description: "Merkez BankasÄ±'nda para politikasÄ± ve ekonometrik araÅŸtÄ±rma birimi iÃ§in uzman adayÄ±." },
+            { id: 304, title: "HÃ¢kim/SavcÄ± AdayÄ± (HSYK)", cities: "TÃ¼rkiye Geneli", score: "KPSS-P9", date: "BugÃ¼n", link: "https://ilan.memurlar.net/", quota: 500, deadline: "15 Temmuz 2026", description: "Adalet BakanlÄ±ÄŸÄ± bÃ¼nyesinde gÃ¶reve baÅŸlayacak hÃ¢kim ve savcÄ± adayÄ± alÄ±mÄ±." },
+            { id: 305, title: "Vergi MÃ¼fettiÅŸ YardÄ±mcÄ±sÄ±", cities: "Ankara / Ä°stanbul / Ä°zmir", score: "KPSS-P3", date: "2 gÃ¼n Ã¶nce", link: "https://ilan.memurlar.net/", quota: 80, deadline: "5 Temmuz 2026", description: "Gelir Ä°daresi BaÅŸkanlÄ±ÄŸÄ±'nda vergi denetimi ve inceleme yapacak mÃ¼fettiÅŸ adaylarÄ±." }
         ]
     };
 
@@ -632,24 +632,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 indicator.style.background = 'rgba(16, 185, 129, 0.15)';
                 indicator.style.borderColor = 'var(--accent-green)';
                 indicator.style.color = '#34d399';
-                indicator.innerHTML = `🟢 Sunucu Aktif (Canlı Mod)`;
+                indicator.innerHTML = `ğŸŸ¢ Sunucu Aktif (CanlÄ± Mod)`;
             } else {
                 indicator.style.background = 'rgba(245, 158, 11, 0.15)';
                 indicator.style.borderColor = 'var(--accent-orange)';
                 indicator.style.color = '#fbbf24';
-                indicator.innerHTML = `🟡 Sunucu Kapalı (Hibrit Çevrimdışı Mod)`;
-                indicator.title = "Yerel sunucu algılanamadığı için sistem çevrimdışı fallback verilerini ve tarayıcı içi yapay zekayı kullanıyor.";
+                indicator.innerHTML = `ğŸŸ¡ Sunucu KapalÄ± (Hibrit Ã‡evrimdÄ±ÅŸÄ± Mod)`;
+                indicator.title = "Yerel sunucu algÄ±lanamadÄ±ÄŸÄ± iÃ§in sistem Ã§evrimdÄ±ÅŸÄ± fallback verilerini ve tarayÄ±cÄ± iÃ§i yapay zekayÄ± kullanÄ±yor.";
             }
         }
     }
 
     let fetchRetryCount = 0;
 
-    // Sunucudan (Backend) verileri çeken asenkron fonksiyon
+    // Sunucudan (Backend) verileri Ã§eken asenkron fonksiyon
     async function fetchLiveJobs() {
         const indicator = document.getElementById('liveUpdateIndicator');
 
-        // ─── file:// protokolü ile açıldıysa anında offline moduna geç ───
+        // â”€â”€â”€ file:// protokolÃ¼ ile aÃ§Ä±ldÄ±ysa anÄ±nda offline moduna geÃ§ â”€â”€â”€
         if (window.location.protocol === 'file:') {
             window.isOfflineMode = true;
             updateServerStatusIndicator(false);
@@ -659,18 +659,18 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTrackerTable();
             checkSmartAlerts(professionsData);
             if (indicator) {
-                indicator.innerHTML = `<span style="width: 8px; height: 8px; background: #a78bfa; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #a78bfa;"></span> Çevrimdışı Mod`;
+                indicator.innerHTML = `<span style="width: 8px; height: 8px; background: #a78bfa; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #a78bfa;"></span> Ã‡evrimdÄ±ÅŸÄ± Mod`;
             }
             if (typeof window.renderCharts === 'function') window.renderCharts();
             return;
         }
 
         if(indicator) {
-            indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #facc15; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #facc15;"></span> Güncelleniyor...`;
+            indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #facc15; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #facc15;"></span> GÃ¼ncelleniyor...`;
         }
 
         try {
-            // Veri yüklenene kadar kullanıcıya Skeleton efekti göster
+            // Veri yÃ¼klenene kadar kullanÄ±cÄ±ya Skeleton efekti gÃ¶ster
             if (tableBody && professionsData[currentTab] && professionsData[currentTab].length === 0) {
                  let skeletonRows = '';
                  for(let i=0; i<5; i++) {
@@ -686,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  tableBody.innerHTML = skeletonRows;
             }
 
-            const response = await fetch('http://localhost:3000/api/jobs');
+            const response = await fetch('/api/jobs');
             if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
             
             const result = await response.json();
@@ -697,29 +697,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateServerStatusIndicator(true);
                 updateSummaries();
                 renderTable(searchInput ? searchInput.value : '');
-                renderTrackerTable(); // Takip kısmını güncelle
+                renderTrackerTable(); // Takip kÄ±smÄ±nÄ± gÃ¼ncelle
                 
-                // Yeni verilerle botu çalıştır
+                // Yeni verilerle botu Ã§alÄ±ÅŸtÄ±r
                 checkSmartAlerts(professionsData);
                 
                 fetchRetryCount = 0; // reset on success
 
                 if(indicator) {
-                    indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #4ade80;"></span> Güncel`;
+                    indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #4ade80;"></span> GÃ¼ncel`;
                     setTimeout(() => {
-                        indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #4ade80;"></span> Canlı Akış Aktif`;
+                        indicator.innerHTML = `<span class="pulse-dot" style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #4ade80;"></span> CanlÄ± AkÄ±ÅŸ Aktif`;
                     }, 2000);
                 }
                 if (typeof window.renderCharts === 'function') window.renderCharts();
             }
         } catch (error) {
-            console.error("Sunucuya bağlanılamadı, çevrimdışı moda geçiliyor:", error);
+            console.error("Sunucuya baÄŸlanÄ±lamadÄ±, Ã§evrimdÄ±ÅŸÄ± moda geÃ§iliyor:", error);
             
-            // Çevrimdışı modu devreye alalım!
+            // Ã‡evrimdÄ±ÅŸÄ± modu devreye alalÄ±m!
             window.isOfflineMode = true;
             updateServerStatusIndicator(false);
             
-            // Mock veriyi yükleyelim — tabloyu HİÇBİR ZAMAN hata mesajıyla silme
+            // Mock veriyi yÃ¼kleyelim â€” tabloyu HÄ°Ã‡BÄ°R ZAMAN hata mesajÄ±yla silme
             professionsData = fallbackJobs;
             updateSummaries();
             renderTable(searchInput ? searchInput.value : '');
@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkSmartAlerts(professionsData);
 
             if(indicator) {
-                indicator.innerHTML = `<span style="width: 8px; height: 8px; background: #a78bfa; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #a78bfa;"></span> Çevrimdışı Mod`;
+                indicator.innerHTML = `<span style="width: 8px; height: 8px; background: #a78bfa; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #a78bfa;"></span> Ã‡evrimdÄ±ÅŸÄ± Mod`;
             }
             if (typeof window.renderCharts === 'function') window.renderCharts();
         }
@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sumOn = document.getElementById('total-onlisans');
         const sumLi = document.getElementById('total-lisans');
 
-        // Sayı animasyonu eklenebilir, şimdilik direkt yazıyoruz
+        // SayÄ± animasyonu eklenebilir, ÅŸimdilik direkt yazÄ±yoruz
         if(sumO) sumO.textContent = oL;
         if(sumOn) sumOn.textContent = onL;
         if(sumLi) sumLi.textContent = li;
@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 score: item.score, quota: item.quota, link: linkHtml
             }));
 
-            // Her zaman kart render et — CSS masaüstünde tablo gibi gösterir
+            // Her zaman kart render et â€” CSS masaÃ¼stÃ¼nde tablo gibi gÃ¶sterir
             const tr = document.createElement('tr');
             tr.className = 'job-card-row';
             tr.innerHTML = `
@@ -805,14 +805,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="job-card-badges">
                                 <span class="job-badge-score">${item.score}</span>
-                                <span class="job-badge-quota">👥 ${item.quota} Kişi</span>
-                                <span class="job-badge-city">📍 ${citiesHtml}</span>
+                                <span class="job-badge-quota">ğŸ‘¥ ${item.quota} KiÅŸi</span>
+                                <span class="job-badge-city">ğŸ“ ${citiesHtml}</span>
                             </div>
                         </div>
                         <div class="job-card-bottom">
-                            <span class="job-card-deadline">⏳ ${deadlineHtml}</span>
+                            <span class="job-card-deadline">â³ ${deadlineHtml}</span>
                             <div class="job-card-actions">
-                                <button class="job-btn-incele" onclick="window.openAIModal('${jobJson}')">🔍 İncele</button>
+                                <button class="job-btn-incele" onclick="window.openAIModal('${jobJson}')">ğŸ” Ä°ncele</button>
                                 <button class="job-btn-takip" onclick="window.trackJob('${jobJson}')">+ Takip</button>
                             </div>
                         </div>
@@ -839,7 +839,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
 
             if (isMobile) {
-                // === MOBİL KART GÖRÜNÜMÜ ===
+                // === MOBÄ°L KART GÃ–RÃœNÃœMÃœ ===
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td colspan="5" style="padding: 0; border: none;">
@@ -850,13 +850,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.7rem;">
                                 <span style="background:rgba(59,130,246,0.1); color:#60a5fa; border:1px solid rgba(59,130,246,0.2); border-radius:6px; padding:0.2rem 0.5rem; font-size:0.72rem;">${item.score}</span>
-                                <span style="background:rgba(16,185,129,0.1); color:#34d399; border:1px solid rgba(16,185,129,0.2); border-radius:6px; padding:0.2rem 0.5rem; font-size:0.72rem;">👥 ${item.quota} Kişi</span>
-                                <span style="color:var(--text-secondary); font-size:0.72rem; padding:0.2rem 0;">📍 ${citiesHtml}</span>
+                                <span style="background:rgba(16,185,129,0.1); color:#34d399; border:1px solid rgba(16,185,129,0.2); border-radius:6px; padding:0.2rem 0.5rem; font-size:0.72rem;">ğŸ‘¥ ${item.quota} KiÅŸi</span>
+                                <span style="color:var(--text-secondary); font-size:0.72rem; padding:0.2rem 0;">ğŸ“ ${citiesHtml}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="color:var(--text-tertiary); font-size:0.72rem;">⏳ ${deadlineHtml}</span>
+                                <span style="color:var(--text-tertiary); font-size:0.72rem;">â³ ${deadlineHtml}</span>
                                 <div style="display:flex; gap:0.4rem;">
-                                    <button onclick="window.openAIModal('${jobJson}')" style="background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; border:none; border-radius:8px; padding:0.45rem 0.8rem; font-size:0.78rem; cursor:pointer; font-weight:600;">🔍 İncele</button>
+                                    <button onclick="window.openAIModal('${jobJson}')" style="background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; border:none; border-radius:8px; padding:0.45rem 0.8rem; font-size:0.78rem; cursor:pointer; font-weight:600;">ğŸ” Ä°ncele</button>
                                     <button onclick="window.trackJob('${jobJson}')" style="background:rgba(255,255,255,0.07); color:var(--text-secondary); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.45rem 0.8rem; font-size:0.78rem; cursor:pointer;">+ Takip</button>
                                 </div>
                             </div>
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 tableBody.appendChild(tr);
             } else {
-                // === MASAÜSTÜ TABLO GÖRÜNÜMÜ ===
+                // === MASAÃœSTÃœ TABLO GÃ–RÃœNÃœMÃœ ===
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>
@@ -874,13 +874,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </td>
                     <td>
                         <span class="badge" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); margin-bottom: 0.3rem; display: inline-block;">${item.score} Puan</span><br>
-                        <span style="color: var(--accent-green); font-weight: 600; background: var(--accent-green-glow); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${item.quota} Kişi</span>
+                        <span style="color: var(--accent-green); font-weight: 600; background: var(--accent-green-glow); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${item.quota} KiÅŸi</span>
                     </td>
                     <td style="color: var(--text-secondary); font-size: 0.9rem;">${citiesHtml}</td>
-                    <td style="color: var(--accent-orange); font-size: 0.85rem; font-weight: 500;">⏳ ${deadlineHtml}</td>
+                    <td style="color: var(--accent-orange); font-size: 0.85rem; font-weight: 500;">â³ ${deadlineHtml}</td>
                     <td>
                         <div style="display: flex; gap: 0.4rem;">
-                            <button onclick="window.openAIModal('${jobJson}')" class="btn-primary" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;">🔍 İncele</button>
+                            <button onclick="window.openAIModal('${jobJson}')" class="btn-primary" style="padding: 0.4rem 0.6rem; font-size: 0.75rem;">ğŸ” Ä°ncele</button>
                             <button onclick="window.trackJob('${jobJson}')" style="background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.75rem;">+ Takip</button>
                         </div>
                     </td>
@@ -896,7 +896,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trackerBody.innerHTML = '';
 
         if (trackedJobs.length === 0) {
-            trackerBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 3rem; color: var(--text-tertiary);">Henüz takip ettiğiniz bir ilan bulunmuyor.<br><span style="font-size: 2.5rem; display:block; margin-top:1rem; opacity: 0.5;">📌</span></td></tr>`;
+            trackerBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 3rem; color: var(--text-tertiary);">HenÃ¼z takip ettiÄŸiniz bir ilan bulunmuyor.<br><span style="font-size: 2.5rem; display:block; margin-top:1rem; opacity: 0.5;">ğŸ“Œ</span></td></tr>`;
             return;
         }
 
@@ -904,18 +904,18 @@ document.addEventListener('DOMContentLoaded', () => {
             let shortTitle = job.title;
             if(shortTitle.length > 40) shortTitle = shortTitle.substring(0, 40) + '...';
             let shortCity = job.cities || '-';
-            if(shortCity.includes('Genel')) shortCity = 'Türkiye Geneli';
+            if(shortCity.includes('Genel')) shortCity = 'TÃ¼rkiye Geneli';
 
             const bg = job.status === 'Beklemede' ? 'rgba(250,204,21,0.2)' : 
-                       (job.status === 'Başvuruldu' ? 'rgba(59,130,246,0.2)' : 
+                       (job.status === 'BaÅŸvuruldu' ? 'rgba(59,130,246,0.2)' : 
                        (job.status === 'Kabul' ? 'rgba(74,222,128,0.2)' : 'rgba(248,113,113,0.2)'));
             const col = job.status === 'Beklemede' ? '#facc15' : 
-                        (job.status === 'Başvuruldu' ? '#60a5fa' : 
+                        (job.status === 'BaÅŸvuruldu' ? '#60a5fa' : 
                         (job.status === 'Kabul' ? '#4ade80' : '#f87171'));
 
             const statusDropdown = `<select onchange="window.updateTrackedJobStatus(${index}, this.value)" style="background:${bg}; color:${col}; border:1px solid ${col}; border-radius:12px; padding:0.3rem 0.6rem; font-size:0.78rem; cursor:pointer; outline:none; font-weight:600;">
                 <option value="Beklemede" ${job.status==='Beklemede'?'selected':''} style="background:var(--bg-dark);color:white;">Beklemede</option>
-                <option value="Başvuruldu" ${job.status==='Başvuruldu'?'selected':''} style="background:var(--bg-dark);color:white;">Başvuruldu</option>
+                <option value="BaÅŸvuruldu" ${job.status==='BaÅŸvuruldu'?'selected':''} style="background:var(--bg-dark);color:white;">BaÅŸvuruldu</option>
                 <option value="Kabul" ${job.status==='Kabul'?'selected':''} style="background:var(--bg-dark);color:white;">Kabul Edildi</option>
                 <option value="Red" ${job.status==='Red'?'selected':''} style="background:var(--bg-dark);color:white;">Reddedildi</option>
             </select>`;
@@ -929,13 +929,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="tracker-card-top">
                             <div style="flex:1; min-width:0;">
                                 <div class="tracker-card-title">${shortTitle}</div>
-                                <div class="tracker-card-meta">📍 ${shortCity} &nbsp;&bull;&nbsp; 📅 ${job.trackDate}</div>
+                                <div class="tracker-card-meta">ğŸ“ ${shortCity} &nbsp;&bull;&nbsp; ğŸ“… ${job.trackDate}</div>
                             </div>
                             <span class="badge platform-iskur" style="font-size:0.7rem; flex-shrink:0; align-self:flex-start;">${job.platform}</span>
                         </div>
                         <div class="tracker-card-bottom">
                             ${statusDropdown}
-                            <button onclick="window.removeTrackedJob(${index})" class="tracker-del-btn">🗑️ Sil</button>
+                            <button onclick="window.removeTrackedJob(${index})" class="tracker-del-btn">ğŸ—‘ï¸ Sil</button>
                         </div>
                     </div>
                 </td>
@@ -947,18 +947,18 @@ document.addEventListener('DOMContentLoaded', () => {
             let shortTitle = job.title;
             if(shortTitle.length > 40) shortTitle = shortTitle.substring(0, 40) + '...';
             let shortCity = job.cities;
-            if(shortCity && shortCity.includes('Genel')) shortCity = 'Türkiye Geneli';
+            if(shortCity && shortCity.includes('Genel')) shortCity = 'TÃ¼rkiye Geneli';
 
             const bg = job.status === 'Beklemede' ? 'rgba(250,204,21,0.2)' : 
-                       (job.status === 'Başvuruldu' ? 'rgba(59,130,246,0.2)' : 
+                       (job.status === 'BaÅŸvuruldu' ? 'rgba(59,130,246,0.2)' : 
                        (job.status === 'Kabul' ? 'rgba(74,222,128,0.2)' : 'rgba(248,113,113,0.2)'));
             const col = job.status === 'Beklemede' ? '#facc15' : 
-                        (job.status === 'Başvuruldu' ? '#60a5fa' : 
+                        (job.status === 'BaÅŸvuruldu' ? '#60a5fa' : 
                         (job.status === 'Kabul' ? '#4ade80' : '#f87171'));
 
             const statusDropdown = `<select onchange="window.updateTrackedJobStatus(${index}, this.value)" style="background:${bg}; color:${col}; border:1px solid ${col}; border-radius:12px; padding:0.2rem 0.5rem; font-size:0.75rem; cursor:pointer; outline:none;">
                 <option value="Beklemede" ${job.status==='Beklemede'?'selected':''} style="background:var(--bg-dark);color:white;">Beklemede</option>
-                <option value="Başvuruldu" ${job.status==='Başvuruldu'?'selected':''} style="background:var(--bg-dark);color:white;">Başvuruldu</option>
+                <option value="BaÅŸvuruldu" ${job.status==='BaÅŸvuruldu'?'selected':''} style="background:var(--bg-dark);color:white;">BaÅŸvuruldu</option>
                 <option value="Kabul" ${job.status==='Kabul'?'selected':''} style="background:var(--bg-dark);color:white;">Kabul Edildi</option>
                 <option value="Red" ${job.status==='Red'?'selected':''} style="background:var(--bg-dark);color:white;">Reddedildi</option>
             </select>`;
@@ -966,20 +966,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
 
             if (isMobile) {
-                // === MOBİL TRACKER KART GÖRÜNÜMÜ ===
+                // === MOBÄ°L TRACKER KART GÃ–RÃœNÃœMÃœ ===
                 tr.innerHTML = `
                     <td colspan="5" style="padding:0; border:none;">
                         <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1rem; margin-bottom:0.7rem;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.6rem;">
                                 <div style="flex:1; margin-right:0.5rem;">
                                     <div style="color:var(--text-primary); font-weight:600; font-size:0.88rem; margin-bottom:0.2rem;">${shortTitle}</div>
-                                    <div style="color:var(--text-tertiary); font-size:0.72rem;">📍 ${shortCity || '-'} &nbsp;•&nbsp; 📅 ${job.trackDate}</div>
+                                    <div style="color:var(--text-tertiary); font-size:0.72rem;">ğŸ“ ${shortCity || '-'} &nbsp;â€¢&nbsp; ğŸ“… ${job.trackDate}</div>
                                 </div>
                                 <span class="badge platform-iskur" style="font-size:0.68rem; flex-shrink:0;">${job.platform}</span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 ${statusDropdown}
-                                <button onclick="window.removeTrackedJob(${index})" style="background:transparent; color:#ef4444; border:1px solid rgba(239,68,68,0.3); border-radius:6px; cursor:pointer; padding:0.3rem 0.7rem; font-size:0.75rem;">🗑️ Sil</button>
+                                <button onclick="window.removeTrackedJob(${index})" style="background:transparent; color:#ef4444; border:1px solid rgba(239,68,68,0.3); border-radius:6px; cursor:pointer; padding:0.3rem 0.7rem; font-size:0.75rem;">ğŸ—‘ï¸ Sil</button>
                             </div>
                         </div>
                     </td>
@@ -990,7 +990,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td><span class="badge platform-iskur" style="font-size: 0.7rem;">${job.platform}</span></td>
                     <td>
                         <div style="color: var(--text-primary); font-weight: 500;">${shortTitle}</div>
-                        <div style="color: var(--text-tertiary); font-size: 0.75rem; margin-top: 0.2rem;">📍 ${shortCity}</div>
+                        <div style="color: var(--text-tertiary); font-size: 0.75rem; margin-top: 0.2rem;">ğŸ“ ${shortCity}</div>
                     </td>
                     <td>${statusDropdown}</td>
                     <td>
@@ -1057,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- Maaş Rehberi Arama Filtresi ---
+    // --- MaaÅŸ Rehberi Arama Filtresi ---
     const salarySearch = document.getElementById('salarySearch');
     if (salarySearch) {
         salarySearch.addEventListener('input', (e) => {
@@ -1076,14 +1076,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    // --- SİSTEM BAŞLATMA ---
+    // --- SÄ°STEM BAÅLATMA ---
     fetchLiveJobs();
-    // Sunucu açıksa her 15 saniyede güncelle, file:// modunda gereksiz
+    // Sunucu aÃ§Ä±ksa her 15 saniyede gÃ¼ncelle, file:// modunda gereksiz
     if (window.location.protocol !== 'file:') {
         setInterval(fetchLiveJobs, 15 * 1000);
     }
 
-    // --- İstatistik Grafikleri (Chart.js) ---
+    // --- Ä°statistik Grafikleri (Chart.js) ---
     let scoreChartInstance = null;
     let institutionChartInstance = null;
 
@@ -1093,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!scoreCtx || !instCtx || typeof Chart === 'undefined') return;
 
-        // Gerçek verilerden istatistik çıkaralım
+        // GerÃ§ek verilerden istatistik Ã§Ä±karalÄ±m
         let lise = 0, onlisans = 0, lisans = 0;
         let cityMap = {};
 
@@ -1114,24 +1114,24 @@ document.addEventListener('DOMContentLoaded', () => {
         processJobs(professionsData.onlisans, 'onlisans');
         processJobs(professionsData.lisans, 'lisans');
 
-        // Şehirleri sırala ve ilk 5'i al
+        // Åehirleri sÄ±rala ve ilk 5'i al
         const topCities = Object.entries(cityMap)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5);
 
-        // Eğer henüz veri yoksa boş kalmasın diye ufak bir numara
+        // EÄŸer henÃ¼z veri yoksa boÅŸ kalmasÄ±n diye ufak bir numara
         if(lise === 0 && onlisans === 0 && lisans === 0) lisans = 1; 
         if(topCities.length === 0) topCities.push(['Veri Bekleniyor', 1]);
 
         Chart.defaults.color = 'rgba(255, 255, 255, 0.6)';
         Chart.defaults.font.family = "'Outfit', sans-serif";
 
-        // Grafik 1: Eğitim Seviyesi Kontenjan (Doughnut)
+        // Grafik 1: EÄŸitim Seviyesi Kontenjan (Doughnut)
         if (scoreChartInstance) scoreChartInstance.destroy();
         scoreChartInstance = new Chart(scoreCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Ortaöğretim', 'Önlisans', 'Lisans'],
+                labels: ['OrtaÃ¶ÄŸretim', 'Ã–nlisans', 'Lisans'],
                 datasets: [{
                     data: [lise, onlisans, lisans],
                     backgroundColor: [
@@ -1154,14 +1154,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Grafik 2: Şehir / Kurum Bazlı Alım (Bar)
+        // Grafik 2: Åehir / Kurum BazlÄ± AlÄ±m (Bar)
         if (institutionChartInstance) institutionChartInstance.destroy();
         institutionChartInstance = new Chart(instCtx, {
             type: 'bar',
             data: {
                 labels: topCities.map(c => c[0]),
                 datasets: [{
-                    label: 'Kontenjan Sayısı',
+                    label: 'Kontenjan SayÄ±sÄ±',
                     data: topCities.map(c => c[1]),
                     backgroundColor: 'rgba(99, 102, 241, 0.8)',
                     borderRadius: 6
@@ -1193,7 +1193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const simulateUploadBtn = document.getElementById('simulateUploadBtn');
 
     if (cvDropZone && cvFileInput) {
-        // Tıklama ile dosya seçme
+        // TÄ±klama ile dosya seÃ§me
         cvDropZone.addEventListener('click', (e) => {
             if (e.target !== simulateUploadBtn) {
                 cvFileInput.click();
@@ -1205,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cvFileInput.click();
         });
 
-        // Sürükle bırak olayları
+        // SÃ¼rÃ¼kle bÄ±rak olaylarÄ±
         ['dragenter', 'dragover'].forEach(eventName => {
             cvDropZone.addEventListener(eventName, (e) => {
                 e.preventDefault();
@@ -1242,11 +1242,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sadece PDF veya Word kabul edelim
             const ext = file.name.split('.').pop().toLowerCase();
             if (!['pdf', 'docx', 'doc'].includes(ext)) {
-                showToast('Lütfen sadece PDF veya Word belgesi (.pdf, .docx, .doc) yükleyin.', 'error');
+                showToast('LÃ¼tfen sadece PDF veya Word belgesi (.pdf, .docx, .doc) yÃ¼kleyin.', 'error');
                 return;
             }
 
-            // Arayüz geçişleri
+            // ArayÃ¼z geÃ§iÅŸleri
             cvDropZone.classList.add('hidden');
             cvUploadProgressContainer.classList.remove('hidden');
             cvAnalysisResult.classList.add('hidden');
@@ -1254,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cvProgressFileName.textContent = file.name;
             cvProgressPercent.textContent = '0%';
             cvProgressBar.style.width = '0%';
-            cvProgressStatus.innerHTML = `<span class="spinner" style="width: 12px; height: 12px; border-width: 2px; border-color: rgba(168, 85, 247, 0.2); border-top-color: #a855f7; margin:0;"></span> Dosya Yapay Zekaya Gönderiliyor...`;
+            cvProgressStatus.innerHTML = `<span class="spinner" style="width: 12px; height: 12px; border-width: 2px; border-color: rgba(168, 85, 247, 0.2); border-top-color: #a855f7; margin:0;"></span> Dosya Yapay Zekaya GÃ¶nderiliyor...`;
 
             let progress = 0;
             const interval = setInterval(() => {
@@ -1283,23 +1283,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const formData = new FormData();
                 formData.append('cv', fileObj);
 
-                const response = await fetch('http://localhost:5000/api/cv-analyze', {
+                const response = await fetch('/api/cv-analyze', {
                     method: 'POST',
                     body: formData
                 });
 
-                if (!response.ok) throw new Error("Python API'ye erişilemedi.");
+                if (!response.ok) throw new Error("Python API'ye eriÅŸilemedi.");
                 const data = await response.json();
 
-                // Analiz bittiğinde yükleme alanını tamamen kaldırıp sonucu göster
+                // Analiz bittiÄŸinde yÃ¼kleme alanÄ±nÄ± tamamen kaldÄ±rÄ±p sonucu gÃ¶ster
                 cvUploadProgressContainer.classList.add('hidden');
                 cvAnalysisResult.classList.remove('hidden');
 
-                // Puanı ve barı güncelle
+                // PuanÄ± ve barÄ± gÃ¼ncelle
                 cvAnalysisResult.querySelector('span:last-child').textContent = `${data.score}/100`;
                 cvAnalysisResult.querySelector('div > div > div').style.width = `${data.score}%`;
                 
-                // Geri bildirim listesini güncelle
+                // Geri bildirim listesini gÃ¼ncelle
                 const ul = cvAnalysisResult.querySelector('ul');
                 ul.innerHTML = '';
                 data.feedback.forEach(f => {
@@ -1308,11 +1308,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     ul.appendChild(li);
                 });
 
-                // Başarı efekti
+                // BaÅŸarÄ± efekti
                 if (window.confetti) {
                     confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 }
-                showToast('Özgeçmiş analiziniz tamamlandı!', 'success');
+                showToast('Ã–zgeÃ§miÅŸ analiziniz tamamlandÄ±!', 'success');
             } catch (err) {
                 console.error(err);
                 
@@ -1321,7 +1321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cvUploadProgressContainer.classList.add('hidden');
                     cvAnalysisResult.classList.remove('hidden');
 
-                    const hasHighQuality = fileObj.name.toLowerCase().includes('cv') || fileObj.name.toLowerCase().includes('özgeçmiş') || fileObj.size > 10000;
+                    const hasHighQuality = fileObj.name.toLowerCase().includes('cv') || fileObj.name.toLowerCase().includes('Ã¶zgeÃ§miÅŸ') || fileObj.size > 10000;
                     const score = hasHighQuality ? 88 : 75;
 
                     cvAnalysisResult.querySelector('span:last-child').textContent = `${score}/100`;
@@ -1329,14 +1329,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const ul = cvAnalysisResult.querySelector('ul');
                     ul.innerHTML = `
-                        <li>✅ E-posta adresi formatı ve iletişim bilgileri başarıyla doğrulandı (+15 Puan)</li>
-                        <li>✅ Eğitim geçmişi ve mezuniyet durumunuz tespit edildi (+20 Puan)</li>
-                        <li>✅ İş deneyimleri ve projeler bölümü analiz edildi (+20 Puan)</li>
-                        <li>💡 Öneri: Yetenekler kısmına daha fazla sektörel anahtar kelime ekleyerek (örneğin SQL, React, Python) AI taramalarında daha yüksek puan alabilirsiniz.</li>
-                        <li>💡 Öneri: Özet bilgi (ön yazı) kısmını biraz daha uzun ve kariyer odaklı tutarak kendinizi daha iyi tanıtabilirsiniz.</li>
+                        <li>âœ… E-posta adresi formatÄ± ve iletiÅŸim bilgileri baÅŸarÄ±yla doÄŸrulandÄ± (+15 Puan)</li>
+                        <li>âœ… EÄŸitim geÃ§miÅŸi ve mezuniyet durumunuz tespit edildi (+20 Puan)</li>
+                        <li>âœ… Ä°ÅŸ deneyimleri ve projeler bÃ¶lÃ¼mÃ¼ analiz edildi (+20 Puan)</li>
+                        <li>ğŸ’¡ Ã–neri: Yetenekler kÄ±smÄ±na daha fazla sektÃ¶rel anahtar kelime ekleyerek (Ã¶rneÄŸin SQL, React, Python) AI taramalarÄ±nda daha yÃ¼ksek puan alabilirsiniz.</li>
+                        <li>ğŸ’¡ Ã–neri: Ã–zet bilgi (Ã¶n yazÄ±) kÄ±smÄ±nÄ± biraz daha uzun ve kariyer odaklÄ± tutarak kendinizi daha iyi tanÄ±tabilirsiniz.</li>
                     `;
 
-                    showToast('CV yerel olarak analiz edildi (Hibrit Çevrimdışı Mod)!', 'info');
+                    showToast('CV yerel olarak analiz edildi (Hibrit Ã‡evrimdÄ±ÅŸÄ± Mod)!', 'info');
                     if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                 }, 1000);
             }
@@ -1378,23 +1378,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     let reply = "";
                     if (offlineInterviewStep === 1) {
-                        reply = "Harika! Kendinizi çok güzel ifade ettiniz. Şimdi 2. Aşamaya geçiyoruz: **Ekip Çalışması ve Problem Çözme**.\n\nGeçmişte bir ekip içinde çalışırken yaşadığınız bir fikir ayrılığını veya karşılaştığınız teknik bir problemi nasıl çözdünüz? Bu durumdaki rolünüz neydi?";
+                        reply = "Harika! Kendinizi Ã§ok gÃ¼zel ifade ettiniz. Åimdi 2. AÅŸamaya geÃ§iyoruz: **Ekip Ã‡alÄ±ÅŸmasÄ± ve Problem Ã‡Ã¶zme**.\n\nGeÃ§miÅŸte bir ekip iÃ§inde Ã§alÄ±ÅŸÄ±rken yaÅŸadÄ±ÄŸÄ±nÄ±z bir fikir ayrÄ±lÄ±ÄŸÄ±nÄ± veya karÅŸÄ±laÅŸtÄ±ÄŸÄ±nÄ±z teknik bir problemi nasÄ±l Ã§Ã¶zdÃ¼nÃ¼z? Bu durumdaki rolÃ¼nÃ¼z neydi?";
                         offlineInterviewStep = 2;
                     } else if (offlineInterviewStep === 2) {
-                        reply = "Çözüm odaklı yaklaşımınız ve ekip ruhuna verdiğiniz önem çok profesyonelce. Şimdi 3. Aşamaya geçiyoruz: **Kriz ve Stres Yönetimi**.\n\nÇok yoğun bir iş gününde veya beklenmedik büyük bir kriz anında (örneğin kritik bir sistem çöktüğünde) stresinizi nasıl yönetirsiniz? Soğukkanlı kalmak için uyguladığınız özel bir yöntem var mı?";
+                        reply = "Ã‡Ã¶zÃ¼m odaklÄ± yaklaÅŸÄ±mÄ±nÄ±z ve ekip ruhuna verdiÄŸiniz Ã¶nem Ã§ok profesyonelce. Åimdi 3. AÅŸamaya geÃ§iyoruz: **Kriz ve Stres YÃ¶netimi**.\n\nÃ‡ok yoÄŸun bir iÅŸ gÃ¼nÃ¼nde veya beklenmedik bÃ¼yÃ¼k bir kriz anÄ±nda (Ã¶rneÄŸin kritik bir sistem Ã§Ã¶ktÃ¼ÄŸÃ¼nde) stresinizi nasÄ±l yÃ¶netirsiniz? SoÄŸukkanlÄ± kalmak iÃ§in uyguladÄ±ÄŸÄ±nÄ±z Ã¶zel bir yÃ¶ntem var mÄ±?";
                         offlineInterviewStep = 3;
                     } else if (offlineInterviewStep === 3) {
-                        reply = "Stres anında panik yapmadan adımlar belirlemeniz çok başarılı bir yetkinlik. Şimdi 4. Aşamaya geçiyoruz: **Liyakat ve Kamu Etiği**.\n\nSizce büyük bir kurumda liyakat, adillik ve şeffaflık ilkeleri neden önemlidir? Göreviniz esnasında kişisel ilişkiler ile mesleki etik sınırları çatışırsa nasıl bir karar alırsınız?";
+                        reply = "Stres anÄ±nda panik yapmadan adÄ±mlar belirlemeniz Ã§ok baÅŸarÄ±lÄ± bir yetkinlik. Åimdi 4. AÅŸamaya geÃ§iyoruz: **Liyakat ve Kamu EtiÄŸi**.\n\nSizce bÃ¼yÃ¼k bir kurumda liyakat, adillik ve ÅŸeffaflÄ±k ilkeleri neden Ã¶nemlidir? GÃ¶reviniz esnasÄ±nda kiÅŸisel iliÅŸkiler ile mesleki etik sÄ±nÄ±rlarÄ± Ã§atÄ±ÅŸÄ±rsa nasÄ±l bir karar alÄ±rsÄ±nÄ±z?";
                         offlineInterviewStep = 4;
                     } else if (offlineInterviewStep === 4) {
-                        reply = "Kamu etiği ve dürüstlük prensipleriniz takdire şayan. Mülakatımızın tüm soru aşamalarını tamamladınız. Şimdi 5. Aşamaya geçiyoruz: **Yapay Zeka Mülakat Performans Raporu**.\n\nHazırladığım detaylı mülakat analizinizi yüklemek için lütfen buraya tıklayın veya herhangi bir mesaj yazarak raporunuzu talep edin.";
+                        reply = "Kamu etiÄŸi ve dÃ¼rÃ¼stlÃ¼k prensipleriniz takdire ÅŸayan. MÃ¼lakatÄ±mÄ±zÄ±n tÃ¼m soru aÅŸamalarÄ±nÄ± tamamladÄ±nÄ±z. Åimdi 5. AÅŸamaya geÃ§iyoruz: **Yapay Zeka MÃ¼lakat Performans Raporu**.\n\nHazÄ±rladÄ±ÄŸÄ±m detaylÄ± mÃ¼lakat analizinizi yÃ¼klemek iÃ§in lÃ¼tfen buraya tÄ±klayÄ±n veya herhangi bir mesaj yazarak raporunuzu talep edin.";
                         offlineInterviewStep = 5;
                     } else if (offlineInterviewStep === 5) {
-                        reply = `📊 **YAPAY ZEKA MÜLAKAT PERFORMANS RAPORU**\n------------------------------------------------------\n👤 **Aday Adı:** ${currentSettings.name || 'Kullanıcı'} ${currentSettings.surname || 'Adı'}\n📅 **Tarih:** ${new Date().toLocaleDateString('tr-TR')}\n⏱️ **Oturum Durumu:** Hibrit Mülakat Başarıyla Tamamlandı\n\n📈 **YETKİNLİK PUANLARI:**\n- **İletişim & Kendini İfade Etme:** %88 (Güçlü ve akıcı)\n- **Problem Çözme & Ekip Çalışması:** %85 (Yapıcı ve çözüm odaklı)\n- **Kriz & Stres Yönetimi:** %80 (Soğukkanlı ve analitik)\n- **Mesleki Etik & Dürüstlük:** %95 (Tavizsiz ve ilkeli)\n\n🎯 **GENEL DEĞERLENDİRME SKORU: %87 (BAŞARILI)**\n\n📝 **Yapay Zeka Uzman Görüşü:**\nAday, kamusal ve profesyonel değerlere yüksek uyum göstermektedir. İletişim becerisi yüksek, kriz anlarında rasyonel karar alabilen ve liyakat ilkelerine bağlı bir yapı sergilemektedir. Kariyer.Pro platformu olarak adaya başarılar dileriz.`;
+                        reply = `ğŸ“Š **YAPAY ZEKA MÃœLAKAT PERFORMANS RAPORU**\n------------------------------------------------------\nğŸ‘¤ **Aday AdÄ±:** ${currentSettings.name || 'KullanÄ±cÄ±'} ${currentSettings.surname || 'AdÄ±'}\nğŸ“… **Tarih:** ${new Date().toLocaleDateString('tr-TR')}\nâ±ï¸ **Oturum Durumu:** Hibrit MÃ¼lakat BaÅŸarÄ±yla TamamlandÄ±\n\nğŸ“ˆ **YETKÄ°NLÄ°K PUANLARI:**\n- **Ä°letiÅŸim & Kendini Ä°fade Etme:** %88 (GÃ¼Ã§lÃ¼ ve akÄ±cÄ±)\n- **Problem Ã‡Ã¶zme & Ekip Ã‡alÄ±ÅŸmasÄ±:** %85 (YapÄ±cÄ± ve Ã§Ã¶zÃ¼m odaklÄ±)\n- **Kriz & Stres YÃ¶netimi:** %80 (SoÄŸukkanlÄ± ve analitik)\n- **Mesleki Etik & DÃ¼rÃ¼stlÃ¼k:** %95 (Tavizsiz ve ilkeli)\n\nğŸ¯ **GENEL DEÄERLENDÄ°RME SKORU: %87 (BAÅARILI)**\n\nğŸ“ **Yapay Zeka Uzman GÃ¶rÃ¼ÅŸÃ¼:**\nAday, kamusal ve profesyonel deÄŸerlere yÃ¼ksek uyum gÃ¶stermektedir. Ä°letiÅŸim becerisi yÃ¼ksek, kriz anlarÄ±nda rasyonel karar alabilen ve liyakat ilkelerine baÄŸlÄ± bir yapÄ± sergilemektedir. Kariyer.Pro platformu olarak adaya baÅŸarÄ±lar dileriz.`;
                         offlineInterviewStep = 6;
                         if (window.confetti) confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                     } else {
-                        reply = "Mülakat başarıyla tamamlanmıştır. Yeni bir mülakat simülasyonu başlatmak için sol üstteki **Sıfırla 🔄** butonuna basabilirsiniz.";
+                        reply = "MÃ¼lakat baÅŸarÄ±yla tamamlanmÄ±ÅŸtÄ±r. Yeni bir mÃ¼lakat simÃ¼lasyonu baÅŸlatmak iÃ§in sol Ã¼stteki **SÄ±fÄ±rla ğŸ”„** butonuna basabilirsiniz.";
                     }
 
                     const aiBubble = document.createElement('div');
@@ -1410,7 +1410,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/api/mock-interview', {
+                const response = await fetch('/api/mock-interview', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text, session_id: 'default' })
@@ -1418,7 +1418,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 mockChatArea.removeChild(aiTyping);
                 
-                if(!response.ok) throw new Error("API hatası");
+                if(!response.ok) throw new Error("API hatasÄ±");
                 const data = await response.json();
                 
                 // Add AI response
@@ -1432,14 +1432,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 mockChatArea.scrollTop = mockChatArea.scrollHeight;
             } catch(e) {
                 mockChatArea.removeChild(aiTyping);
-                console.log("Sunucu hatası, çevrimdışı mülakata geçiliyor.");
+                console.log("Sunucu hatasÄ±, Ã§evrimdÄ±ÅŸÄ± mÃ¼lakata geÃ§iliyor.");
                 window.isOfflineMode = true;
                 updateServerStatusIndicator(false);
                 
                 const aiBubble = document.createElement('div');
                 aiBubble.className = 'chat-bubble ai-bubble';
                 aiBubble.style = 'background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 12px; border-top-left-radius: 0; align-self: flex-start; max-width: 85%; margin-top: 0.5rem;';
-                aiBubble.innerHTML = `<p style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.5;">Sunucu bağlantısı koptu. Çevrimdışı Yapay Zeka Mülakat moduna geçildi.<br><br>Girişinizi aldım. Mülakata devam etmek için lütfen herhangi bir şey yazın.</p>`;
+                aiBubble.innerHTML = `<p style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.5;">Sunucu baÄŸlantÄ±sÄ± koptu. Ã‡evrimdÄ±ÅŸÄ± Yapay Zeka MÃ¼lakat moduna geÃ§ildi.<br><br>GiriÅŸinizi aldÄ±m. MÃ¼lakata devam etmek iÃ§in lÃ¼tfen herhangi bir ÅŸey yazÄ±n.</p>`;
                 mockChatArea.appendChild(aiBubble);
                 mockChatArea.scrollTop = mockChatArea.scrollHeight;
             }
@@ -1450,7 +1450,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') sendResponse();
         });
 
-        // Mülakat Sıfırlama Olayı
+        // MÃ¼lakat SÄ±fÄ±rlama OlayÄ±
         const resetMockBtn = document.getElementById('resetMockBtn');
         if (resetMockBtn && mockChatArea) {
             resetMockBtn.addEventListener('click', async () => {
@@ -1460,14 +1460,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const aiBubble = document.createElement('div');
                     aiBubble.className = 'chat-bubble ai-bubble';
                     aiBubble.style = 'background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 12px; border-top-left-radius: 0; align-self: flex-start; max-width: 85%;';
-                    aiBubble.innerHTML = `<p style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.5;">Kariyer.Pro Mülakat Simülasyonuna hoş geldiniz! Ben AI Mülakat Uzmanı. Öncelikle kendinizi kısaca tanıtır mısınız ve neden kamuda/özel sektörde çalışmak istiyorsunuz?</p>`;
+                    aiBubble.innerHTML = `<p style="color: #e2e8f0; font-size: 0.85rem; line-height: 1.5;">Kariyer.Pro MÃ¼lakat SimÃ¼lasyonuna hoÅŸ geldiniz! Ben AI MÃ¼lakat UzmanÄ±. Ã–ncelikle kendinizi kÄ±saca tanÄ±tÄ±r mÄ±sÄ±nÄ±z ve neden kamuda/Ã¶zel sektÃ¶rde Ã§alÄ±ÅŸmak istiyorsunuz?</p>`;
                     mockChatArea.appendChild(aiBubble);
-                    showToast('Mülakat başarıyla sıfırlandı.', 'success');
+                    showToast('MÃ¼lakat baÅŸarÄ±yla sÄ±fÄ±rlandÄ±.', 'success');
                     return;
                 }
 
                 try {
-                    const response = await fetch('http://localhost:5000/api/mock-interview/reset', {
+                    const response = await fetch('/api/mock-interview/reset', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ session_id: 'default' })
@@ -1484,16 +1484,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     mockChatArea.appendChild(aiBubble);
                     mockChatArea.scrollTop = mockChatArea.scrollHeight;
                     
-                    showToast('Mülakat başarıyla sıfırlandı.', 'success');
+                    showToast('MÃ¼lakat baÅŸarÄ±yla sÄ±fÄ±rlandÄ±.', 'success');
                 } catch(e) {
-                    console.error("Mülakat sıfırlama hatası:", e);
-                    showToast('Sıfırlanırken sunucu hatası oluştu.', 'error');
+                    console.error("MÃ¼lakat sÄ±fÄ±rlama hatasÄ±:", e);
+                    showToast('SÄ±fÄ±rlanÄ±rken sunucu hatasÄ± oluÅŸtu.', 'error');
                 }
             });
         }
     }
 
-    // İlk açılışta boş çiz
+    // Ä°lk aÃ§Ä±lÄ±ÅŸta boÅŸ Ã§iz
     if (typeof window.renderCharts === 'function') window.renderCharts();
 
     // --- Settings / Profile / CV Builder ---
@@ -1620,7 +1620,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProfileMetrics();
     }
 
-    // Calculate Doluluk Yüzdesi
+    // Calculate Doluluk YÃ¼zdesi
     function updateProfileMetrics() {
         let completion = 0;
         
@@ -1641,13 +1641,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update Progress Bar
         if (elements.profileProgressFill) elements.profileProgressFill.style.width = `${completion}%`;
-        if (elements.profileProgressText) elements.profileProgressText.textContent = `Profil Doluluğu: %${completion}`;
+        if (elements.profileProgressText) elements.profileProgressText.textContent = `Profil DoluluÄŸu: %${completion}`;
         
         // Update Sidebar Initials and Name
         const initials = ((currentSettings.name?.[0] || 'K') + (currentSettings.surname?.[0] || 'P')).toUpperCase();
         if (elements.settingAvatarIcon) elements.settingAvatarIcon.textContent = initials;
         if (elements.settingProfileName) {
-            elements.settingProfileName.textContent = (currentSettings.name || 'Kullanıcı') + " " + (currentSettings.surname || 'Adı');
+            elements.settingProfileName.textContent = (currentSettings.name || 'KullanÄ±cÄ±') + " " + (currentSettings.surname || 'AdÄ±');
         }
 
         // Update Badges
@@ -1656,8 +1656,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentSettings.quizCompleted) {
                 const badge = document.createElement('div');
                 badge.style = "background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent-green); color: #34d399; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; display: flex; align-items: center; gap: 0.2rem; cursor: help; animation: pulseGlow 2s infinite;";
-                badge.title = `Kariyer.Pro GK-GY Başarı Rozeti (${currentSettings.quizScore})`;
-                badge.innerHTML = `🏅 GK-GY`;
+                badge.title = `Kariyer.Pro GK-GY BaÅŸarÄ± Rozeti (${currentSettings.quizScore})`;
+                badge.innerHTML = `ğŸ… GK-GY`;
                 elements.sidebarBadges.appendChild(badge);
             }
         }
@@ -1701,7 +1701,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Bind "Kaydet ve İlerle" Buttons
+    // Bind "Kaydet ve Ä°lerle" Buttons
     const saveStepButtons = document.querySelectorAll('.save-step-btn');
     saveStepButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1711,7 +1711,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activateTab(nextTab);
                 showToast('Bilgileriniz kaydedildi.', 'success');
             } else {
-                showToast('Profiliniz başarıyla kaydedildi!', 'success');
+                showToast('Profiliniz baÅŸarÄ±yla kaydedildi!', 'success');
                 if (window.confetti) {
                     confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
                 }
@@ -1736,14 +1736,14 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.skillsTagsContainer.innerHTML = "";
         
         if (!currentSettings.skills || currentSettings.skills.length === 0) {
-            elements.skillsTagsContainer.innerHTML = `<span style="color: var(--text-tertiary); font-size: 0.85rem;" id="noSkillsText">Henüz yetenek eklenmedi.</span>`;
+            elements.skillsTagsContainer.innerHTML = `<span style="color: var(--text-tertiary); font-size: 0.85rem;" id="noSkillsText">HenÃ¼z yetenek eklenmedi.</span>`;
             return;
         }
 
         currentSettings.skills.forEach((skill, index) => {
             const tag = document.createElement('span');
             tag.className = 'skill-tag';
-            tag.innerHTML = `${skill} <span class="remove-btn" data-index="${index}">×</span>`;
+            tag.innerHTML = `${skill} <span class="remove-btn" data-index="${index}">Ã—</span>`;
             elements.skillsTagsContainer.appendChild(tag);
         });
 
@@ -1755,7 +1755,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('kariyerSettings', JSON.stringify(currentSettings));
                 renderSkillsTags();
                 updateProfileMetrics();
-                showToast('Yetenek kaldırıldı.', 'info');
+                showToast('Yetenek kaldÄ±rÄ±ldÄ±.', 'info');
             });
         });
     }
@@ -1795,28 +1795,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- QUIZ SIMULATOR LOGIC ---
     const quizQuestions = [
         {
-            question: "Bir sayının 3 katının 5 fazlası, aynı sayının 4 katının 2 eksiğine eşittir. Bu sayı kaçtır?",
+            question: "Bir sayÄ±nÄ±n 3 katÄ±nÄ±n 5 fazlasÄ±, aynÄ± sayÄ±nÄ±n 4 katÄ±nÄ±n 2 eksiÄŸine eÅŸittir. Bu sayÄ± kaÃ§tÄ±r?",
             options: ["A) 5", "B) 7", "C) 9", "D) 11"],
             correct: 1
         },
         {
-            question: "Osmanlı Devleti'nin ilk anayasası olan Kanun-i Esasi hangi yıl yürürlüğe girmiştir?",
+            question: "OsmanlÄ± Devleti'nin ilk anayasasÄ± olan Kanun-i Esasi hangi yÄ±l yÃ¼rÃ¼rlÃ¼ÄŸe girmiÅŸtir?",
             options: ["A) 1808", "B) 1839", "C) 1856", "D) 1876"],
             correct: 3
         },
         {
-            question: "Aşağıdaki cümlelerin hangisinde bir yazım hatası yapılmıştır?",
-            options: ["A) Her şey yolunda gidiyor.", "B) Birkaç gün sonra geleceğim.", "C) Bu işi ardarda yapmalıyız.", "D) Hiçbir zaman vazgeçme."],
+            question: "AÅŸaÄŸÄ±daki cÃ¼mlelerin hangisinde bir yazÄ±m hatasÄ± yapÄ±lmÄ±ÅŸtÄ±r?",
+            options: ["A) Her ÅŸey yolunda gidiyor.", "B) BirkaÃ§ gÃ¼n sonra geleceÄŸim.", "C) Bu iÅŸi ardarda yapmalÄ±yÄ±z.", "D) HiÃ§bir zaman vazgeÃ§me."],
             correct: 2
         },
         {
-            question: "Bir yarışta ikinciyi geçen kaçıncı olur?",
-            options: ["A) Birinci", "B) İkinci", "C) Üçüncü", "D) Sonuncu"],
+            question: "Bir yarÄ±ÅŸta ikinciyi geÃ§en kaÃ§Ä±ncÄ± olur?",
+            options: ["A) Birinci", "B) Ä°kinci", "C) ÃœÃ§Ã¼ncÃ¼", "D) Sonuncu"],
             correct: 1
         },
         {
-            question: "Dünyanın en derin noktası olan Mariana Çukuru hangi okyanustadır?",
-            options: ["A) Büyük Okyanus (Pasifik)", "B) Atlas Okyanusu (Atlantik)", "C) Hint Okyanusu", "D) Arktik Okyanusu"],
+            question: "DÃ¼nyanÄ±n en derin noktasÄ± olan Mariana Ã‡ukuru hangi okyanustadÄ±r?",
+            options: ["A) BÃ¼yÃ¼k Okyanus (Pasifik)", "B) Atlas Okyanusu (Atlantik)", "C) Hint Okyanusu", "D) Arktik Okyanusu"],
             correct: 0
         }
     ];
@@ -1877,9 +1877,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (idx === quizQuestions.length - 1) {
-            quizPanels.nextBtn.textContent = "Sınavı Bitir 🏁";
+            quizPanels.nextBtn.textContent = "SÄ±navÄ± Bitir ğŸ";
         } else {
-            quizPanels.nextBtn.textContent = "Sonraki Soru ➡️";
+            quizPanels.nextBtn.textContent = "Sonraki Soru â¡ï¸";
         }
     }
 
@@ -1921,7 +1921,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // 4 Yanlış 1 Doğruyu Götürür Kuralı GK-GY Standardıdır
+        // 4 YanlÄ±ÅŸ 1 DoÄŸruyu GÃ¶tÃ¼rÃ¼r KuralÄ± GK-GY StandardÄ±dÄ±r
         let net = corrects - (incorrects * 0.25);
         if (net < 0) net = 0;
         
@@ -1932,14 +1932,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const passed = corrects >= 3;
         
         if (passed) {
-            quizPanels.emoji.textContent = "🎉";
-            quizPanels.title.textContent = "Tebrikler! Sınavı Geçtiniz.";
-            quizPanels.text.textContent = `Matematik, Mantık ve Genel Kültür testini başarıyla tamamlayarak %${(corrects/5)*100} oranında doğru cevap verdiniz. Rozetiniz profilinize eklendi.`;
+            quizPanels.emoji.textContent = "ğŸ‰";
+            quizPanels.title.textContent = "Tebrikler! SÄ±navÄ± GeÃ§tiniz.";
+            quizPanels.text.textContent = `Matematik, MantÄ±k ve Genel KÃ¼ltÃ¼r testini baÅŸarÄ±yla tamamlayarak %${(corrects/5)*100} oranÄ±nda doÄŸru cevap verdiniz. Rozetiniz profilinize eklendi.`;
             quizPanels.badgeCard.style.display = "block";
             
             // Save state
             currentSettings.quizCompleted = true;
-            currentSettings.quizScore = `${corrects}/5 Doğru, ${net.toFixed(2)} Net`;
+            currentSettings.quizScore = `${corrects}/5 DoÄŸru, ${net.toFixed(2)} Net`;
             localStorage.setItem('kariyerSettings', JSON.stringify(currentSettings));
             updateProfileMetrics();
             
@@ -1947,9 +1947,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 } });
             }
         } else {
-            quizPanels.emoji.textContent = "😢";
-            quizPanels.title.textContent = "Başarısız Oldunuz.";
-            quizPanels.text.textContent = `Başarılı sayılmak için 5 sorudan en az 3 tanesini doğru cevaplamanız gerekmektedir. Dilerseniz testi tekrar çözerek kendinizi test edebilirsiniz.`;
+            quizPanels.emoji.textContent = "ğŸ˜¢";
+            quizPanels.title.textContent = "BaÅŸarÄ±sÄ±z Oldunuz.";
+            quizPanels.text.textContent = `BaÅŸarÄ±lÄ± sayÄ±lmak iÃ§in 5 sorudan en az 3 tanesini doÄŸru cevaplamanÄ±z gerekmektedir. Dilerseniz testi tekrar Ã§Ã¶zerek kendinizi test edebilirsiniz.`;
             quizPanels.badgeCard.style.display = "none";
         }
     }
@@ -1969,7 +1969,7 @@ document.addEventListener('DOMContentLoaded', () => {
             quizPanels.result.style.display = 'none';
             quizPanels.intro.style.display = 'block';
             activateTab('cv-personal'); // Back to starting tab
-            showToast('Profil ayarları başarıyla güncellendi.', 'success');
+            showToast('Profil ayarlarÄ± baÅŸarÄ±yla gÃ¼ncellendi.', 'success');
         });
     }
 
@@ -1987,11 +1987,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRegisterMode = false;
     window.toggleAuthMode = function() {
         isRegisterMode = !isRegisterMode;
-        document.getElementById('authModalTitle').textContent = isRegisterMode ? "Kayıt Ol" : "Giriş Yap";
+        document.getElementById('authModalTitle').textContent = isRegisterMode ? "KayÄ±t Ol" : "GiriÅŸ Yap";
         document.getElementById('registerNameGroup').style.display = isRegisterMode ? "block" : "none";
-        document.getElementById('authSubmitBtn').textContent = isRegisterMode ? "Kayıt Ol" : "Giriş Yap";
-        document.getElementById('authToggleText').textContent = isRegisterMode ? "Zaten hesabın var mı?" : "Hesabın yok mu?";
-        document.getElementById('authToggleLink').textContent = isRegisterMode ? "Giriş Yap" : "Kayıt Ol";
+        document.getElementById('authSubmitBtn').textContent = isRegisterMode ? "KayÄ±t Ol" : "GiriÅŸ Yap";
+        document.getElementById('authToggleText').textContent = isRegisterMode ? "Zaten hesabÄ±n var mÄ±?" : "HesabÄ±n yok mu?";
+        document.getElementById('authToggleLink').textContent = isRegisterMode ? "GiriÅŸ Yap" : "KayÄ±t Ol";
     };
 
     window.handleAuth = async function() {
@@ -2009,37 +2009,37 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (isRegisterMode) {
                     if (!name || !email || !password) {
-                        showToast('Lütfen tüm alanları doldurun.', 'error');
-                        btn.textContent = "Kayıt Ol";
+                        showToast('LÃ¼tfen tÃ¼m alanlarÄ± doldurun.', 'error');
+                        btn.textContent = "KayÄ±t Ol";
                         return;
                     }
                     const mockUser = { name, email, password };
                     localStorage.setItem('offlineUser', JSON.stringify(mockUser));
-                    showToast('Kayıt Başarılı (Çevrimdışı)! Giriş yapabilirsiniz.', 'success');
+                    showToast('KayÄ±t BaÅŸarÄ±lÄ± (Ã‡evrimdÄ±ÅŸÄ±)! GiriÅŸ yapabilirsiniz.', 'success');
                     toggleAuthMode();
                 } else {
                     if (!email || !password) {
-                        showToast('Lütfen e-posta ve şifrenizi girin.', 'error');
-                        btn.textContent = "Giriş Yap";
+                        showToast('LÃ¼tfen e-posta ve ÅŸifrenizi girin.', 'error');
+                        btn.textContent = "GiriÅŸ Yap";
                         return;
                     }
-                    const savedUser = JSON.parse(localStorage.getItem('offlineUser')) || { name: "Ahmet Yılmaz", email: "ahmet@gmail.com", password: "123" };
+                    const savedUser = JSON.parse(localStorage.getItem('offlineUser')) || { name: "Ahmet YÄ±lmaz", email: "ahmet@gmail.com", password: "123" };
                     if (email === savedUser.email) {
                         localStorage.setItem('kariyerToken', 'mock-offline-token');
                         localStorage.setItem('kariyerUser', JSON.stringify({ name: savedUser.name, email: savedUser.email }));
                         closeAuthModal();
                         updateUserProfileUI();
-                        showToast('Giriş Başarılı (Çevrimdışı)!', 'success');
+                        showToast('GiriÅŸ BaÅŸarÄ±lÄ± (Ã‡evrimdÄ±ÅŸÄ±)!', 'success');
                     } else {
                         // Allow any login in offline mode for convenience, using input email
                         localStorage.setItem('kariyerToken', 'mock-offline-token');
                         localStorage.setItem('kariyerUser', JSON.stringify({ name: name || "Misafir Aday", email: email }));
                         closeAuthModal();
                         updateUserProfileUI();
-                        showToast('Giriş Başarılı (Çevrimdışı)!', 'success');
+                        showToast('GiriÅŸ BaÅŸarÄ±lÄ± (Ã‡evrimdÄ±ÅŸÄ±)!', 'success');
                     }
                 }
-                btn.textContent = isRegisterMode ? "Kayıt Ol" : "Giriş Yap";
+                btn.textContent = isRegisterMode ? "KayÄ±t Ol" : "GiriÅŸ Yap";
             }, 500);
             return;
         }
@@ -2067,29 +2067,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(data.message, 'error');
             }
         } catch(e) {
-            console.log("Sunucu kapalı, yerel giriş simülasyonu yapılıyor.");
+            console.log("Sunucu kapalÄ±, yerel giriÅŸ simÃ¼lasyonu yapÄ±lÄ±yor.");
             if (isRegisterMode) {
                 if (!name || !email || !password) {
-                    showToast('Lütfen tüm alanları doldurun.', 'error');
+                    showToast('LÃ¼tfen tÃ¼m alanlarÄ± doldurun.', 'error');
                 } else {
                     const mockUser = { name, email, password };
                     localStorage.setItem('offlineUser', JSON.stringify(mockUser));
-                    showToast('Kayıt Başarılı (Çevrimdışı)! Giriş yapabilirsiniz.', 'success');
+                    showToast('KayÄ±t BaÅŸarÄ±lÄ± (Ã‡evrimdÄ±ÅŸÄ±)! GiriÅŸ yapabilirsiniz.', 'success');
                     toggleAuthMode();
                 }
             } else {
                 if (!email) {
-                    showToast('Lütfen e-posta adresinizi girin.', 'error');
+                    showToast('LÃ¼tfen e-posta adresinizi girin.', 'error');
                 } else {
                     localStorage.setItem('kariyerToken', 'mock-offline-token');
-                    localStorage.setItem('kariyerUser', JSON.stringify({ name: "Ahmet Yılmaz", email: email }));
+                    localStorage.setItem('kariyerUser', JSON.stringify({ name: "Ahmet YÄ±lmaz", email: email }));
                     closeAuthModal();
                     updateUserProfileUI();
-                    showToast('Giriş Başarılı (Çevrimdışı)!', 'success');
+                    showToast('GiriÅŸ BaÅŸarÄ±lÄ± (Ã‡evrimdÄ±ÅŸÄ±)!', 'success');
                 }
             }
         }
-        btn.textContent = isRegisterMode ? "Kayıt Ol" : "Giriş Yap";
+        btn.textContent = isRegisterMode ? "KayÄ±t Ol" : "GiriÅŸ Yap";
     };
     
     function updateUserProfileUI() {
@@ -2104,12 +2104,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="avatar" id="navAvatar">${initial}</div>
                 <div class="user-info">
                     <span class="user-name" id="navUserName" style="color:white; font-weight:bold;">${user.name}</span>
-                    <span class="user-role" onclick="window.logout()" style="cursor:pointer; color:var(--accent-orange); font-size:0.75rem;">🚪 Çıkış Yap</span>
+                    <span class="user-role" onclick="window.logout()" style="cursor:pointer; color:var(--accent-orange); font-size:0.75rem;">ğŸšª Ã‡Ä±kÄ±ÅŸ Yap</span>
                 </div>
             `;
             fetchFavoritesFromDB();
         } else {
-            profileSection.innerHTML = `<button class="btn-primary" onclick="openAuthModal()" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Giriş Yap / Kayıt Ol</button>`;
+            profileSection.innerHTML = `<button class="btn-primary" onclick="openAuthModal()" style="padding: 0.5rem 1rem; font-size: 0.85rem;">GiriÅŸ Yap / KayÄ±t Ol</button>`;
             trackedJobs = [];
             renderTrackerTable();
         }
@@ -2119,10 +2119,10 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('kariyerToken');
         localStorage.removeItem('kariyerUser');
         updateUserProfileUI();
-        showToast("Çıkış yapıldı.", "info");
+        showToast("Ã‡Ä±kÄ±ÅŸ yapÄ±ldÄ±.", "info");
     };
     
-    // Başlangıçta çalıştır
+    // BaÅŸlangÄ±Ã§ta Ã§alÄ±ÅŸtÄ±r
     updateUserProfileUI();
     
     // --- APPLICATION FORM LOGIC ---
@@ -2133,7 +2133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const token = localStorage.getItem('kariyerToken');
         if (!token) {
-            showToast('Başvuru yapmak için önce Giriş Yapmalısınız!', 'error');
+            showToast('BaÅŸvuru yapmak iÃ§in Ã¶nce GiriÅŸ YapmalÄ±sÄ±nÄ±z!', 'error');
             openAuthModal();
             return;
         }
@@ -2157,24 +2157,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentApplicationJob) return;
         
         const btn = document.querySelector('#applicationModal .btn-primary');
-        btn.innerHTML = '<span class="spinner" style="display:inline-block; width:14px; height:14px; border:2px solid #fff; border-bottom-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></span> Gönderiliyor...';
+        btn.innerHTML = '<span class="spinner" style="display:inline-block; width:14px; height:14px; border:2px solid #fff; border-bottom-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></span> GÃ¶nderiliyor...';
         btn.disabled = true;
         
-        // Simüle edilmiş başvuru beklemesi
+        // SimÃ¼le edilmiÅŸ baÅŸvuru beklemesi
         setTimeout(() => {
-            btn.innerHTML = '✅ Başvuru Başarıyla İletildi';
+            btn.innerHTML = 'âœ… BaÅŸvuru BaÅŸarÄ±yla Ä°letildi';
             btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
             
-            showToast('Başvurunuz kuruma iletildi!', 'success');
+            showToast('BaÅŸvurunuz kuruma iletildi!', 'success');
             if (window.confetti) confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
             
             // Otomatik olarak takip listesine ekle
             const encodedJob = encodeURIComponent(JSON.stringify(currentApplicationJob));
-            window.trackJob(encodedJob, 'Başvuruldu'); // DB'ye kaydet
+            window.trackJob(encodedJob, 'BaÅŸvuruldu'); // DB'ye kaydet
             
             setTimeout(() => {
                 closeApplicationModal();
-                btn.innerHTML = 'Başvuruyu Gönder';
+                btn.innerHTML = 'BaÅŸvuruyu GÃ¶nder';
                 btn.disabled = false;
                 btn.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
             }, 2500);
@@ -2183,14 +2183,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ============================================================
-   📱 MOBİL ALT NAVİGASYON FONKSİYONLARI
+   ğŸ“± MOBÄ°L ALT NAVÄ°GASYON FONKSÄ°YONLARI
    ============================================================ */
 function mobileNavClick(el) {
     // Aktif tab
     document.querySelectorAll('.mob-nav-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
 
-    // Sayfayı göster
+    // SayfayÄ± gÃ¶ster
     const page = el.getAttribute('data-page');
     if (!page) return;
 
@@ -2198,28 +2198,28 @@ function mobileNavClick(el) {
     const target = document.getElementById(page);
     if (target) {
         target.classList.add('active');
-        // Sayfanın başına dön
+        // SayfanÄ±n baÅŸÄ±na dÃ¶n
         const main = document.querySelector('.main-content');
         if (main) main.scrollTop = 0;
     }
 
-    // Sidebar nav item'ları da güncelle
+    // Sidebar nav item'larÄ± da gÃ¼ncelle
     document.querySelectorAll('.sidebar-nav .nav-item').forEach(n => {
         n.classList.remove('active');
         if (n.getAttribute('data-page') === page) n.classList.add('active');
     });
 
-    // İstatistikler sayfasında grafikleri yenile
+    // Ä°statistikler sayfasÄ±nda grafikleri yenile
     if (page === 'page-statistics' && typeof window.renderCharts === 'function') {
         setTimeout(window.renderCharts, 100);
     }
 }
 
-// Hamburger stub (çağrılırsa hata vermesin)
+// Hamburger stub (Ã§aÄŸrÄ±lÄ±rsa hata vermesin)
 function toggleMobileMenu() {}
 function closeMobileMenu() {}
 
-// Masaüstü sidebar nav itemları da bottom nav ile senkronize et
+// MasaÃ¼stÃ¼ sidebar nav itemlarÄ± da bottom nav ile senkronize et
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
         item.addEventListener('click', () => {
@@ -2231,4 +2231,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
